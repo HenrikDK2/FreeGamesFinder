@@ -52,7 +52,7 @@ export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ setting
       <Checkbox
         onClick={() => updateSettings({ hideClickedGames: !settings.hideClickedGames })}
         isChecked={settings.hideClickedGames}
-        label="Hide opened games from list"
+        label="Hide claimed games from list"
       />
       <Checkbox
         onClick={() => updateSettings({ updateOnBrowserStart: !settings.updateOnBrowserStart })}
