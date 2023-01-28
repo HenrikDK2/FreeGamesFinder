@@ -6,8 +6,8 @@ import { minutesToMs } from "../utils";
 const { updateIntervalInMinutes, updateOnBrowserStart } = getSettings();
 
 if (updateOnBrowserStart) checkForNewGames();
-
 let gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
+
 Browser.notifications.onClicked.addListener((title) => {
   const game = getGame(title);
 
