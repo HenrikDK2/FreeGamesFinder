@@ -32,6 +32,7 @@ const Version = styled("p")`
   font-weight: 500;
   color: var(--text-color);
   user-select: none;
+  opacity: 0.3;
   margin: auto 0 2rem 0;
 `;
 
