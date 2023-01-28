@@ -32,7 +32,7 @@ export const switchIcon = (games: IFreeGame[]) => {
   });
 };
 
-export const getMinutes = (number: number) => 1000 * number * 60;
+export const minutesToMs = (number: number) => 1000 * number * 60;
 
 export const getDOMFromUrl = async (url: string): Promise<HTMLElement | undefined> => {
   try {
