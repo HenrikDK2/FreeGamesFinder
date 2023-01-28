@@ -26,10 +26,16 @@ export const sortGames = (games: IFreeGame[]): IFreeGame[] => {
   return games.sort((a, b) => Number(a.state.hasClicked) - Number(b.state.hasClicked));
 };
 
-export const switchIcon = (games: IFreeGame[]) => {
-  Browser.browserAction.setIcon({
-    path: games.some((game) => !game.state.hasClicked) ? "assets/logo-32.png" : "assets/logo-32-hidden.png",
-  });
+export const switchIcon = (games: IFreeGame[] | undefined) => {
+  const icons = ["assets/logo-32.png", "assets/logo-32-hidden.png"];
+
+  if (!games) {
+    Browser.browserAction.setIcon({ path: icons[1] });
+  } else {
+    Browser.browserAction.setIcon({
+      path: games.some((game) => !game.state.hasClicked) ? icons[0] : icons[1],
+    });
+  }
 };
 
 export const minutesToMs = (number: number) => 1000 * number * 60;
