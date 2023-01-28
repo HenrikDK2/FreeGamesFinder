@@ -9,8 +9,8 @@
 html,
 body {
   border: none;
-  background: #23222f;
-  color: var(--background-level-1);
+  background: var(--background-level-1);
+  color: var(--text-color);
   margin: 0;
   padding: 0;
   font-family: "Poppins", sans-serif;

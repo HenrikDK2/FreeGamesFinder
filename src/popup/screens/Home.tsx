@@ -6,7 +6,7 @@ import { ISettings } from "../../types/settings";
 import { updateGameState } from "../../utils/storage";
 import { Layout } from "../components/Layout";
 import { StoreIcon } from "../components/StoreIcon";
-
+import { IoMdSad } from "react-icons/io";
 interface HomeScreenProps {
   children?: ComponentChildren;
   state: RootState;
@@ -78,6 +78,18 @@ const ImageContainer = styled("div")`
   }
 `;
 
+const NoGamesContainer = styled("div")`
+  margin: auto 0;
+  text-align: center;
+  user-select: none;
+  font-size: 1.5rem;
+  opacity: 0.2;
+  svg {
+    margin-bottom: -2rem;
+    font-size: 7rem;
+  }
+`;
+
 const clickHandler = (e: MouseEvent, game: IFreeGame) => {
   e.preventDefault();
   updateGameState(game, { hasClicked: true });
@@ -85,6 +97,8 @@ const clickHandler = (e: MouseEvent, game: IFreeGame) => {
 };
 
 export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
+  const noGames = state.games === undefined || state.games.length < 1;
+
   return (
     <Layout>
       <GamesList>
@@ -103,6 +117,13 @@ export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
           </GameItem>
         ))}
       </GamesList>
+
+      {noGames && (
+        <NoGamesContainer>
+          <IoMdSad />
+          <h3>No free games</h3>
+        </NoGamesContainer>
+      )}
     </Layout>
   );
 };
