@@ -15,11 +15,11 @@ interface AppProps {
 }
 
 export const App: FunctionComponent<AppProps> = () => {
-  const [freeGames, setFreeGames] = useState<IFreeGame[] | undefined>(getStorage<IFreeGame[]>("games"));
+  const [freeGames, setFreeGames] = useState<IFreeGame[] | undefined>(getStorage("games"));
 
   useEffect(() => {
     const messages = (msg: BrowserMessages) => {
-      if (msg === "update") setFreeGames(getStorage<IFreeGame[]>("games"));
+      if (msg === "update") setFreeGames(getStorage("games"));
     };
 
     Browser.runtime.onMessage.addListener(messages);

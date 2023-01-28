@@ -2,6 +2,7 @@ import axios from "axios";
 import DOMPurify from "dompurify";
 import Browser from "webextension-polyfill";
 import { IFreeGame, Platform, GameState } from "../types/freegames";
+import { IStorage } from "../types/storage";
 
 export const getProductType = (type?: string) => {
   switch (type) {
@@ -46,12 +47,12 @@ export const getDOMFromUrl = async (url: string): Promise<HTMLElement | undefine
 };
 
 export const getGame = (title: IFreeGame["title"]): IFreeGame | undefined => {
-  const games = getStorage<IFreeGame[]>("games");
+  const games = getStorage("games");
   if (games) return games.find((game) => game.title === title);
 };
 
 export const updateGame = (data: IFreeGame) => {
-  const games = getStorage<IFreeGame[]>("games");
+  const games = getStorage("games");
 
   if (games) {
     const newGames = games.map((game) => (game.title === data.title ? data : game));
@@ -64,7 +65,9 @@ export const updateGameState = (game: IFreeGame, state: Partial<GameState>) => {
   updateGame({ ...game, state: { ...game.state, ...state } });
 };
 
-export const getStorage = <T>(key: string): T | undefined => {
+export const getStorage = (key: keyof IStorage): IStorage["games"] | undefined => {
   const dataString = localStorage.getItem(key) || sessionStorage.getItem(key);
-  if (dataString) return JSON.parse(dataString);
+  if (dataString) {
+    if (key === "games") return JSON.parse(dataString);
+  }
 };
