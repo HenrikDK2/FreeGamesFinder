@@ -11,9 +11,16 @@
     "start:firefox": "web-ext run --devtools --browser-console --source-dir ./dist/",
     "start": "npm run build:dev && concurrently \"webpack --watch\" \"npm run start:firefox\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "FreeGamesFinder",
+    "Games Finder",
+    "Free Games",
+    "Games",
+    "Free",
+    "Free Games Finder"
+  ],
+  "author": "Henrik Mundt Milo",
+  "license": "AGPL-3.0-or-later",
   "devDependencies": {
     "@svgr/webpack": "^6.5.1",
     "@types/dompurify": "^2.4.0",
