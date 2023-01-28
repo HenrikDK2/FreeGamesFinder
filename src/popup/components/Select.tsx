@@ -1,7 +1,8 @@
-import { styled } from "goober";
+import { css, styled } from "goober";
 import { FunctionComponent } from "preact";
 import { IoCaretDown } from "react-icons/io5";
-import { useState } from "preact/hooks";
+import { useRef, useState } from "preact/hooks";
+import { useOnClickOutside } from "../hooks/useOnClickOutside";
 
 interface SelectProps {
   className?: string;
@@ -33,7 +34,7 @@ const SelectButton = styled("button")`
   }
 `;
 
-const List = styled("ul")`
+const listClassName = css`
   margin: 0;
   padding: 0;
   z-index: 20;
@@ -96,7 +97,13 @@ const Label = styled("label")`
 `;
 
 export const Select: FunctionComponent<SelectProps> = ({ onChange, id, className, label, value, items }) => {
+  const ref = useRef<HTMLUListElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  useOnClickOutside(ref, () => {
+    console.log("ttest");
+    if (isOpen) setIsOpen(false);
+  });
 
   return (
     <SelectContainer className={className}>
@@ -105,7 +112,7 @@ export const Select: FunctionComponent<SelectProps> = ({ onChange, id, className
         {value}
         <Caret />
       </SelectButton>
-      <List aria-hidden={isOpen} id={id}>
+      <ul ref={ref} className={listClassName} aria-hidden={isOpen} id={id}>
         {items.map((e) => (
           <li key={e}>
             <SelectItemButton
@@ -119,7 +126,7 @@ export const Select: FunctionComponent<SelectProps> = ({ onChange, id, className
             </SelectItemButton>
           </li>
         ))}
-      </List>
+      </ul>
     </SelectContainer>
   );
 };

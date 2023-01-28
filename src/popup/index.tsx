@@ -1,6 +1,6 @@
 import "./global.css";
 import Browser from "webextension-polyfill";
-import Router, { route } from "preact-router";
+import Router from "preact-router";
 import { FunctionComponent, render, h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { HomeScreen } from "./screens/Home";
