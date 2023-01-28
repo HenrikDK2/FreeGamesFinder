@@ -1,10 +1,9 @@
 import Browser from "webextension-polyfill";
 import { checkForNewGames } from "./utils/notification";
-import { getStorage, updateGameState } from "./utils";
-import { IFreeGame } from "./types/freegames";
+import { getGame, updateGameState } from "./utils";
 
-Browser.notifications.onClicked.addListener((id) => {
-  const game = getStorage<IFreeGame>(id);
+Browser.notifications.onClicked.addListener((title) => {
+  const game = getGame(title);
 
   if (game) {
     updateGameState(game, { hasClicked: true });

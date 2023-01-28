@@ -44,7 +44,6 @@
     "dompurify": "^2.4.3",
     "goober": "^2.1.11",
     "preact": "^10.11.3",
-    "uuid": "^9.0.0",
     "webextension-polyfill": "^0.10.0"
   }
 }
