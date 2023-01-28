@@ -1,9 +1,7 @@
 import { IFreeGame } from "./freegames";
 import { ISettings } from "./settings";
 
-export interface IStorage {
-  games: IFreeGame[];
+export interface RootState {
+  games: IFreeGame[] | undefined;
   settings: ISettings;
 }
-
-export type StorageKey = keyof IStorage;

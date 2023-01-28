@@ -1,0 +1,17 @@
+:root {
+  --text-color: #fafafa;
+  --background-level-0: #1e1b21;
+  --background-level-1: #23222f;
+  --background-level-2: #353347;
+  --background-level-3: #3f3c59;
+}
+
+html,
+body {
+  border: none;
+  background: #23222f;
+  color: var(--background-level-1);
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}

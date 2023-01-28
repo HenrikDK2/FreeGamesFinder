@@ -1,5 +1,6 @@
-import { getProductType, getDOMFromUrl, getPlatform, sortGames, switchIcon, getGame } from "../utils";
+import { getProductType, getDOMFromUrl, getPlatform, sortGames, switchIcon } from "../utils";
 import { IFreeGame } from "../types/freegames";
+import { getGame } from "../utils/storage";
 
 /* export const getEpicGames = async (): Promise<FreeGamesData | undefined> => {
   try {
@@ -55,7 +56,7 @@ const ggDeals = async (): Promise<IFreeGame[] | undefined> => {
   }
 };
 
-export const getGames = async (): Promise<IFreeGame[] | undefined> => {
+export const getGamesFromSources = async (): Promise<IFreeGame[] | undefined> => {
   const games = await ggDeals();
 
   if (games) {

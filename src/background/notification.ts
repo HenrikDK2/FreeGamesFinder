@@ -1,7 +1,7 @@
 import Browser from "webextension-polyfill";
 import { IFreeGame } from "../types/freegames";
-import { getGames } from "./getGames";
-import { updateGameState } from "../utils";
+import { getGamesFromSources } from "./games";
+import { updateGameState } from "../utils/storage";
 
 export const createNotification = (game: IFreeGame) => {
   Browser.notifications.create(game.title, {
@@ -13,14 +13,13 @@ export const createNotification = (game: IFreeGame) => {
     imageUrl: game.imageSrc,
     appIconMaskUrl: game.imageSrc,
     title: game.title,
-    contextMessage: "dsdsd",
   });
 
   updateGameState(game, { hasSendNotification: true });
 };
 
 export const checkForNewGames = async () => {
-  const games = await getGames();
+  const games = await getGamesFromSources();
 
   if (games) {
     for (let i = 0; i < games.length; i++) {

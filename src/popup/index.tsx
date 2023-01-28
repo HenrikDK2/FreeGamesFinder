@@ -1,25 +1,24 @@
-import { ComponentChildren, FunctionComponent, render, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
-import { IFreeGame } from "../types/freegames";
-import { setup } from "goober";
-import { GlobalStyles } from "./components/GlobalStyles";
-import { HomeScreen } from "./screens/Home";
-import { getStorage } from "../utils";
+import "./global.css";
 import Browser from "webextension-polyfill";
+import Router, { route } from "preact-router";
+import { FunctionComponent, render, h } from "preact";
+import { useEffect, useState } from "preact/hooks";
+import { HomeScreen } from "./screens/Home";
 import { BrowserMessages } from "../types/messages";
-
+import { setup } from "goober";
+import { SettingsScreen } from "./screens/Settings";
+import { getGames, getSettings } from "../utils/storage";
+import { RootState } from "../types";
 setup(h);
 
-interface AppProps {
-  children?: ComponentChildren;
-}
-
-export const App: FunctionComponent<AppProps> = () => {
-  const [freeGames, setFreeGames] = useState<IFreeGame[] | undefined>(getStorage("games"));
+export const App: FunctionComponent = () => {
+  const [state, setState] = useState<RootState>({ games: getGames(), settings: getSettings() });
 
   useEffect(() => {
     const messages = (msg: BrowserMessages) => {
-      if (msg === "update") setFreeGames(getStorage("games"));
+      if (msg === "update") {
+        setState({ games: getGames(), settings: getSettings() });
+      }
     };
 
     Browser.runtime.onMessage.addListener(messages);
@@ -27,10 +26,10 @@ export const App: FunctionComponent<AppProps> = () => {
   }, []);
 
   return (
-    <>
-      <GlobalStyles />
-      <HomeScreen freeGames={freeGames} />
-    </>
+    <Router>
+      <HomeScreen default path="/" state={state} />
+      <SettingsScreen path="/settings" settings={state.settings} />
+    </Router>
   );
 };
 

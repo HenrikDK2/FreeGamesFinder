@@ -48,9 +48,12 @@
   },
   "dependencies": {
     "axios": "^1.2.5",
+    "clsx": "^1.2.1",
     "dompurify": "^2.4.3",
     "goober": "^2.1.11",
     "preact": "^10.11.3",
+    "preact-router": "^4.1.0",
+    "react-icons": "^4.7.1",
     "webextension-polyfill": "^0.10.0"
   }
 }

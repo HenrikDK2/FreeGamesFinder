@@ -1,39 +1,35 @@
 import { styled } from "goober";
 import { ComponentChildren, FunctionComponent } from "preact";
-import { GameState, IFreeGame } from "../../types/freegames";
-import { updateGameState } from "../../utils";
+import { RootState } from "../../types";
+import { IFreeGame } from "../../types/freegames";
+import { ISettings } from "../../types/settings";
+import { updateGameState } from "../../utils/storage";
+import { Layout } from "../components/Layout";
 import { StoreIcon } from "../components/StoreIcon";
-import pkg from "../../../public/manifest.json";
 
 interface HomeScreenProps {
   children?: ComponentChildren;
-  freeGames?: IFreeGame[];
+  state: RootState;
 }
 
-const Main = styled("main")`
-  display: flex;
-  flex-direction: column;
-  min-width: 350px;
-  min-height: 500px;
-`;
-
 const GamesList = styled("ul")`
-  padding: 1rem;
   list-style: none;
+  padding: 0;
   margin: 0;
 `;
 
-const GameItem = styled("li")(({ state }: { state: GameState }) => ({
+const GameItem = styled("li")(({ game, settings }: { game: IFreeGame; settings: ISettings }) => ({
+  display: settings.hideClickedGames && game.state.hasClicked ? "none" : "block",
   height: "100px",
-  backgroundColor: "#353347",
+  backgroundColor: "var(--background-level-2)",
   borderRadius: "6px",
   transition: "all 0.2s ease",
-  opacity: state.hasClicked ? 0.2 : 1,
+  opacity: game.state.hasClicked ? 0.2 : 1,
   "& > a": {
     display: "flex",
     alignItems: "flex-end",
     width: "100%",
-    color: "#fff",
+    color: "var(--text-color)",
     height: "100%",
     textDecoration: "none",
   },
@@ -43,7 +39,7 @@ const GameItem = styled("li")(({ state }: { state: GameState }) => ({
   },
 
   "&:hover": {
-    opacity: state.hasClicked ? 0.2 : 0.5,
+    opacity: game.state.hasClicked ? 0.2 : 0.5,
   },
 }));
 
@@ -82,27 +78,18 @@ const ImageContainer = styled("div")`
   }
 `;
 
-const Version = styled("p")`
-  font-family: "Poppins";
-  text-align: center;
-  margin-top: auto;
-  font-weight: medium;
-  padding: 2rem 0;
-`;
+const clickHandler = (e: MouseEvent, game: IFreeGame) => {
+  e.preventDefault();
+  updateGameState(game, { hasClicked: true });
+  window.open(game.url);
+};
 
-export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ freeGames }) => {
-  const clickHandler = (e: MouseEvent, game: IFreeGame) => {
-    e.preventDefault();
-
-    updateGameState(game, { hasClicked: true });
-    window.open(game.url);
-  };
-
+export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
   return (
-    <Main>
+    <Layout>
       <GamesList>
-        {freeGames?.map((game) => (
-          <GameItem state={game.state}>
+        {state.games?.map((game) => (
+          <GameItem key={game.url} settings={state.settings} game={game}>
             <a href={game.url} alt="" onClick={(e) => clickHandler(e, game)}>
               <ImageContainer>
                 <img src={game.imageSrc} alt={"Image of " + game.title} />
@@ -116,7 +103,6 @@ export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ freeGames }) =>
           </GameItem>
         ))}
       </GamesList>
-      <Version>Version {pkg.version}</Version>
-    </Main>
+    </Layout>
   );
 };
