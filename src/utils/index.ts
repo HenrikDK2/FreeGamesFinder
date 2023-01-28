@@ -57,16 +57,16 @@ export const getDOMFromUrl = async (url: string): Promise<HTMLElement | undefine
   }
 };
 
-export const getGameData = (title: IFreeGameData["title"]): IFreeGameData | undefined => {
+export const getGame = (title: IFreeGameData["title"]): IFreeGameData | undefined => {
   const games = getStorage("games") as FreeGamesData;
   if (games) return games.find((game) => game.title === title);
 };
 
-export const setGameData = (newGame: IFreeGameData) => {
+export const updateGame = (data: IFreeGameData) => {
   const games = getStorage("games") as FreeGamesData;
 
   if (games) {
-    const newGames = games.map((game) => (game.title === newGame.title ? newGame : game));
+    const newGames = games.map((game) => (game.title === data.title ? data : game));
     localStorage.setItem("games", JSON.stringify(sortGames(newGames)));
     switchIcon(newGames);
   }

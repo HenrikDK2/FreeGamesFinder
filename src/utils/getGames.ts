@@ -1,4 +1,4 @@
-import { getProductType, getDOMFromUrl, getPlatform, sortGames, switchIcon, getGameData } from ".";
+import { getProductType, getDOMFromUrl, getPlatform, sortGames, switchIcon, getGame } from ".";
 import { FreeGamesData } from "../types/freegames";
 
 /* export const getEpicGames = async (): Promise<FreeGamesData | undefined> => {
@@ -41,7 +41,7 @@ const ggDeals = async (): Promise<FreeGamesData | undefined> => {
       const url = "https://gg.deals" + shopLink.getAttribute("href");
       const title = titleLink.textContent || "";
       const imageSrc = img.getAttribute("srcset")!.split(",")[1].replace(" 2x", "");
-      const state = getGameData(title)?.state || { hasClicked: false, hasSendNotification: false };
+      const state = getGame(title)?.state || { hasClicked: false, hasSendNotification: false };
 
       return {
         url,

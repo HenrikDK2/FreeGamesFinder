@@ -1,7 +1,7 @@
 import { styled } from "goober";
 import { ComponentChildren, FunctionComponent } from "preact";
 import { FreeGamesData, GameState, IFreeGameData } from "../../types/freegames";
-import { setGameData } from "../../utils";
+import { updateGame } from "../../utils";
 import { StoreIcon } from "../components/StoreIcon";
 import pkg from "../../../public/manifest.json";
 
@@ -93,7 +93,7 @@ const Version = styled("p")`
 export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ freeGames }) => {
   const clickHandler = (e: MouseEvent, game: IFreeGameData) => {
     e.preventDefault();
-    setGameData({ ...game, state: { ...game.state, hasClicked: true } });
+    updateGame({ ...game, state: { ...game.state, hasClicked: true } });
 
     window.open(game.url);
     window.close();

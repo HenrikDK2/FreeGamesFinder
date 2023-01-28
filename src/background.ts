@@ -2,7 +2,7 @@ import Browser from "webextension-polyfill";
 import { IGetFreeGames, RuntimeMessages } from "./types/runtimeMessage";
 import { getGames } from "./utils/getGames";
 import { checkForNewGames } from "./utils/notification";
-import { getStorage, setGameData } from "./utils";
+import { getStorage, updateGame } from "./utils";
 
 Browser.runtime.onMessage.addListener(async ({ msg }: { msg: RuntimeMessages }) => {
   if (msg === "get-free-games") {
@@ -24,7 +24,7 @@ Browser.notifications.onClicked.addListener((id) => {
 
   // Update game state
   if (game) {
-    setGameData({ ...game, state: { hasClicked: true, hasSendNotification: true } });
+    updateGame({ ...game, state: { hasClicked: true, hasSendNotification: true } });
   }
 
   // Open url in a new tab
