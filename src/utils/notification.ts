@@ -2,7 +2,7 @@ import Browser from "webextension-polyfill";
 import { IFreeGame } from "../types/freegames";
 import { getGames } from "./getGames";
 import { v4 as uuidv4 } from "uuid";
-import { updateGame } from ".";
+import { updateGameState } from ".";
 
 export const createNotification = (game: IFreeGame) => {
   const message = `New free ${game.productType.toLowerCase()} is available!`;
@@ -25,7 +25,7 @@ export const createNotification = (game: IFreeGame) => {
       contextMessage: "dsdsd",
     });
 
-    updateGame({ ...game, state: { ...game.state, hasSendNotification: true } });
+    updateGameState(game, { hasSendNotification: true });
   }
 };
 

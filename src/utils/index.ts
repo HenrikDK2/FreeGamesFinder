@@ -1,7 +1,7 @@
 import axios from "axios";
 import DOMPurify from "dompurify";
 import Browser from "webextension-polyfill";
-import { IFreeGame, Platform } from "../types/freegames";
+import { IFreeGame, Platform, GameState } from "../types/freegames";
 
 export const getProductType = (type?: string) => {
   switch (type) {
@@ -58,6 +58,10 @@ export const updateGame = (data: IFreeGame) => {
     localStorage.setItem("games", JSON.stringify(sortGames(newGames)));
     switchIcon(newGames);
   }
+};
+
+export const updateGameState = (game: IFreeGame, state: Partial<GameState>) => {
+  updateGame({ ...game, state: { ...game.state, ...state } });
 };
 
 export const getStorage = <T>(key: string): T | undefined => {
