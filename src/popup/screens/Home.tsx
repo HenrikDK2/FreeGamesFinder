@@ -91,7 +91,7 @@ const Version = styled("p")`
 `;
 
 export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ freeGames }) => {
-  const onClickHandler = (e: MouseEvent, game: IFreeGameData) => {
+  const clickHandler = (e: MouseEvent, game: IFreeGameData) => {
     e.preventDefault();
     setGameData({ ...game, state: { ...game.state, hasClicked: true } });
 
@@ -104,7 +104,7 @@ export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ freeGames }) =>
       <GamesList>
         {freeGames?.map((game) => (
           <GameItem state={game.state}>
-            <a href={game.url} alt="" onClick={(e) => onClickHandler(e, game)}>
+            <a href={game.url} alt="" onClick={(e) => clickHandler(e, game)}>
               <ImageContainer>
                 <img src={game.imageSrc} alt={"Image of " + game.title} />
                 <StoreIcon platform={game.platform} />
