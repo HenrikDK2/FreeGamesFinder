@@ -7,6 +7,7 @@ interface NavLinkProps {
   to: string;
   icon: ComponentChildren;
   text: string;
+  subRoutes?: string[];
 }
 
 const linkClassName = css`
@@ -34,8 +35,19 @@ const linkActive = css`
   opacity: 1;
 `;
 
-export const NavLink: FunctionComponent<NavLinkProps> = ({ text, icon, to }) => (
-  <Link className={clsx(linkClassName, getCurrentUrl() === to && linkActive)} href={to}>
+const isActive = (route: string, subRoutes?: string[]) => {
+  if (getCurrentUrl() === route) return true;
+  if (subRoutes) {
+    for (const subRoute of subRoutes) {
+      if (getCurrentUrl() === subRoute) return true;
+    }
+  }
+
+  return false;
+};
+
+export const NavLink: FunctionComponent<NavLinkProps> = ({ text, icon, to, subRoutes }) => (
+  <Link className={clsx(linkClassName, isActive(to, subRoutes) && linkActive)} href={to}>
     {icon}
     {text}
   </Link>

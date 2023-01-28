@@ -19,14 +19,12 @@ const Nav = styled("nav")`
   align-items: center;
 `;
 
-export const BottomMenu: FunctionComponent = () => {
-  return (
-    <Menu>
-      <Nav>
-        <NavLink text="Home" icon={<IoMdHome />} to="/" />
-        <NavLink text="Settings" icon={<IoMdSettings />} to="/settings" />
-      </Nav>
-      <div style={{ height: "80px" }}></div>
-    </Menu>
-  );
-};
+export const BottomMenu: FunctionComponent = () => (
+  <Menu>
+    <Nav>
+      <NavLink text="Home" icon={<IoMdHome />} subRoutes={["/index.html"]} to="/" />
+      <NavLink text="Settings" icon={<IoMdSettings />} to="/settings" />
+    </Nav>
+    <div style={{ height: "80px" }}></div>
+  </Menu>
+);
