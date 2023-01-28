@@ -1,0 +1,26 @@
+{
+  "name": "Free Games Finder",
+  "version": "0.1.0",
+  "manifest_version": 2,
+  "description": "Introducing the ultimate solution for keeping track of limited-time free game. Free Games Finder tracks and alerts you so you never miss out on great games.",
+  "icons": {
+    "32": "assets/logo-32.png",
+    "48": "assets/logo-48.png",
+    "64": "assets/logo-64.png"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "addon@example.com"
+    }
+  },
+  "browser_action": {
+    "default_icon": "assets/logo-64.png",
+    "default_title": "Free Games Finder",
+    "default_popup": "index.html"
+  },
+  "permissions": ["https://*/*", "http://*/*", "unlimitedStorage", "storage", "notifications"],
+  "content_security_policy": "script-src 'self' 'unsafe-eval' object-src 'self'"
+}

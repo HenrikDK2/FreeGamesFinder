@@ -1,0 +1,50 @@
+{
+  "name": "free-games-finder",
+  "version": "1.0.0",
+  "description": "Introducing the ultimate solution for keeping track of limited-time free game. Free Games Finder tracks and alerts you so you never miss out on great games.",
+  "main": "index.js",
+  "scripts": {
+    "zip": "(cd dist && zip -r build.zip *)",
+    "build": "rm -rf dist && webpack --mode=production --node-env=production",
+    "build:dev": "rm -rf dist && webpack --mode=development",
+    "build:prod": "rm -rf dist && webpack --mode=production --node-env=production && npm run zip",
+    "start:firefox": "web-ext run --devtools --browser-console --source-dir ./dist/",
+    "start": "npm run build:dev && concurrently \"webpack --watch\" \"npm run start:firefox\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@svgr/webpack": "^6.5.1",
+    "@types/dompurify": "^2.4.0",
+    "@types/uuid": "^9.0.0",
+    "@types/webextension-polyfill": "^0.10.0",
+    "@webpack-cli/generators": "^3.0.1",
+    "autoprefixer": "^10.4.13",
+    "concurrently": "^7.6.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.3",
+    "html-webpack-plugin": "^5.5.0",
+    "postcss": "^8.4.21",
+    "postcss-loader": "^7.0.2",
+    "prettier": "^2.8.3",
+    "sass": "^1.57.1",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
+    "svg-url-loader": "^8.0.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
+    "web-ext": "^7.5.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "dependencies": {
+    "axios": "^1.2.5",
+    "dompurify": "^2.4.3",
+    "goober": "^2.1.11",
+    "preact": "^10.11.3",
+    "uuid": "^9.0.0",
+    "webextension-polyfill": "^0.10.0"
+  }
+}
