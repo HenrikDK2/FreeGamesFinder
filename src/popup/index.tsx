@@ -6,7 +6,7 @@ import { IGetFreeGames } from "../types/runtimeMessage";
 import { setup } from "goober";
 import { GlobalStyles } from "./components/GlobalStyles";
 import { HomeScreen } from "./screens/Home";
-import { getLocalStorage, switchIcon } from "../utils";
+import { getStorage } from "../utils";
 
 setup(h);
 
@@ -15,7 +15,7 @@ interface AppProps {
 }
 
 export const App: FunctionComponent<AppProps> = () => {
-  const [freeGames, setFreeGames] = useState<FreeGamesData>(getLocalStorage("games"));
+  const [freeGames, setFreeGames] = useState<FreeGamesData>(getStorage("games"));
 
   useEffect(() => {
     const getFreeGamesData = ({ msg, data }: IGetFreeGames) => {
@@ -25,6 +25,7 @@ export const App: FunctionComponent<AppProps> = () => {
       }
     };
 
+    Browser.runtime.sendMessage(undefined, "get-free-games");
     Browser.runtime.onMessage.addListener(getFreeGamesData);
     return () => Browser.runtime.onMessage.removeListener(getFreeGamesData);
   }, []);

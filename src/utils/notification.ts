@@ -1,31 +1,29 @@
 import Browser from "webextension-polyfill";
 import { IFreeGameData } from "../types/freegames";
 import { getGames } from "./getGames";
-import { setGameState, switchIcon } from ".";
 import { v4 as uuidv4 } from "uuid";
+import { setGameData } from ".";
 
-export const createNotification = ({ productType, title, url, state, imageSrc }: IFreeGameData) => {
-  const message = `New free ${productType.toLowerCase()} is available!`;
+export const createNotification = (game: IFreeGameData) => {
+  const message = `New free ${game.productType.toLowerCase()} is available!`;
 
-  setGameState(title, { ...state, hasSendNotification: true });
-
-  if (!state.hasSendNotification) {
+  if (!game.state.hasSendNotification) {
     const id = uuidv4();
 
-    // To reference notifications
-    sessionStorage.setItem(id, url);
+    // To get game on notification button click
+    sessionStorage.setItem(id, JSON.stringify(game));
 
     Browser.notifications.create(id, {
       message,
       type: "basic",
-      iconUrl: imageSrc,
       isClickable: true,
       priority: 2,
-      appIconMaskUrl: imageSrc,
-      imageUrl: imageSrc,
-      title,
+      imageUrl: game.imageSrc,
+      title: game.title,
       contextMessage: "dsdsd",
     });
+
+    setGameData({ ...game, state: { ...game.state, hasSendNotification: true } });
   }
 };
 

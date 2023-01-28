@@ -1,7 +1,7 @@
 import axios from "axios";
 import DOMPurify from "dompurify";
 import Browser from "webextension-polyfill";
-import { IFreeGameData, GameState, Platform, FreeGamesData } from "../types/freegames";
+import { IFreeGameData, Platform, FreeGamesData } from "../types/freegames";
 
 export const getProductType = (type?: string) => {
   switch (type) {
@@ -57,29 +57,24 @@ export const getDOMFromUrl = async (url: string): Promise<HTMLElement | undefine
   }
 };
 
-export const getGameState = (title: IFreeGameData["title"]): GameState => {
-  const stateString = localStorage.getItem(title.toLowerCase().trim());
-  if (stateString) return JSON.parse(stateString);
-
-  return {
-    hasClicked: false,
-    hasSendNotification: false,
-  };
+export const getGameData = (title: IFreeGameData["title"]): IFreeGameData | undefined => {
+  const games = getStorage("games") as FreeGamesData;
+  if (games) return games.find((game) => game.title === title);
 };
 
-export const setGameState = (title: IFreeGameData["title"], state: GameState, games?: FreeGamesData) => {
-  localStorage.setItem(title.toLowerCase().trim(), JSON.stringify(state));
+export const setGameData = (newGame: IFreeGameData) => {
+  const games = getStorage("games") as FreeGamesData;
 
   if (games) {
-    const newGames = games.map((game) => (game.title === title ? { ...game, state } : game));
+    const newGames = games.map((game) => (game.title === newGame.title ? newGame : game));
     localStorage.setItem("games", JSON.stringify(sortGames(newGames)));
     switchIcon(newGames);
   }
 };
 
-export const getLocalStorage = (key: string) => {
-  const gamesString = localStorage.getItem(key);
-  if (gamesString) return JSON.parse(gamesString);
+export const getStorage = (key: string) => {
+  const dataString = localStorage.getItem(key) || sessionStorage.getItem(key);
+  if (dataString) return JSON.parse(dataString);
 
   return undefined;
 };

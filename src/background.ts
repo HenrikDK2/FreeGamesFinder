@@ -2,8 +2,7 @@ import Browser from "webextension-polyfill";
 import { IGetFreeGames, RuntimeMessages } from "./types/runtimeMessage";
 import { getGames } from "./utils/getGames";
 import { checkForNewGames } from "./utils/notification";
-import { getLocalStorage, sortGames, switchIcon } from "./utils";
-import { FreeGamesData } from "./types/freegames";
+import { getStorage, setGameData } from "./utils";
 
 Browser.runtime.onMessage.addListener(async ({ msg }: { msg: RuntimeMessages }) => {
   if (msg === "get-free-games") {
@@ -21,19 +20,15 @@ Browser.runtime.onMessage.addListener(async ({ msg }: { msg: RuntimeMessages }) 
 });
 
 Browser.notifications.onClicked.addListener((id) => {
-  const url = sessionStorage.getItem(id);
-  const games = getLocalStorage("games") as FreeGamesData;
+  const game = getStorage(id);
 
-  // Save that the current game has been clicked
-  if (games) {
-    const state = { hasClicked: true, hasSendNotification: true };
-    const newGames = games.map((game) => (game.url === url ? { ...game, state } : game));
-    localStorage.setItem("games", JSON.stringify(sortGames(newGames)));
-    switchIcon(newGames);
+  // Update game state
+  if (game) {
+    setGameData({ ...game, state: { hasClicked: true, hasSendNotification: true } });
   }
 
   // Open url in a new tab
-  if (url) Browser.tabs.create({ url });
+  if (game.url) Browser.tabs.create({ url: game.url });
 });
 
 // On browser load check for new games

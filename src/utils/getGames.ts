@@ -1,7 +1,4 @@
-import axios from "axios";
-import Browser from "webextension-polyfill";
-import { getProductType, getGameState, getDOMFromUrl, getPlatform, sortGames, switchIcon } from ".";
-import { EpicGamesRequestData } from "../types/epicgames";
+import { getProductType, getDOMFromUrl, getPlatform, sortGames, switchIcon, getGameData } from ".";
 import { FreeGamesData } from "../types/freegames";
 
 /* export const getEpicGames = async (): Promise<FreeGamesData | undefined> => {
@@ -44,12 +41,13 @@ const ggDeals = async (): Promise<FreeGamesData | undefined> => {
       const url = "https://gg.deals" + shopLink.getAttribute("href");
       const title = titleLink.textContent || "";
       const imageSrc = img.getAttribute("srcset")!.split(",")[1].replace(" 2x", "");
+      const state = getGameData(title)?.state || { hasClicked: false, hasSendNotification: false };
 
       return {
         url,
         productType: getProductType(),
         platform: getPlatform(el.getAttribute("data-shop-name")!),
-        state: getGameState(title),
+        state,
         title,
         imageSrc,
       };
