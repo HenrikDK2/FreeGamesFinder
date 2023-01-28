@@ -18,7 +18,9 @@ export const createNotification = (game: IFreeGameData) => {
       type: "basic",
       isClickable: true,
       priority: 2,
+      iconUrl: game.imageSrc,
       imageUrl: game.imageSrc,
+      appIconMaskUrl: game.imageSrc,
       title: game.title,
       contextMessage: "dsdsd",
     });
