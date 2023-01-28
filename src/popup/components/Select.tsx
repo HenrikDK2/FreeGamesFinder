@@ -119,7 +119,7 @@ export const Select: FunctionComponent<SelectProps> = ({ onChange, id, className
               data-active={value === e}
               onClick={() => {
                 setIsOpen(false);
-                onChange(e);
+                if (value !== e) onChange(e);
               }}
             >
               {e}
