@@ -14,7 +14,7 @@ interface SettingsScreenProps {
 
 const refItems = {
   30: "30 Minutes",
-  60: "1 Hour",
+  60: "Hour",
   180: "3 Hours",
   360: "6 Hours",
   720: "12 Hours",
