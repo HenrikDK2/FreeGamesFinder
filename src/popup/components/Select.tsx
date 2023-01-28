@@ -34,7 +34,7 @@ const SelectButton = styled("button")`
   }
 `;
 
-const listClassName = css`
+const List = styled("ul")`
   margin: 0;
   padding: 0;
   z-index: 20;
@@ -82,7 +82,7 @@ const Caret = styled(IoCaretDown)`
   margin-left: auto;
 `;
 
-const SelectContainer = styled("div")`
+const containerClassName = css`
   position: relative;
   box-sizing: border-box;
 `;
@@ -97,36 +97,35 @@ const Label = styled("label")`
 `;
 
 export const Select: FunctionComponent<SelectProps> = ({ onChange, id, className, label, value, items }) => {
-  const ref = useRef<HTMLUListElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  useOnClickOutside(ref, () => {
-    console.log("ttest");
-    if (isOpen) setIsOpen(false);
-  });
+  useOnClickOutside(ref, () => isOpen && setIsOpen(false));
 
   return (
-    <SelectContainer className={className}>
+    <div>
       <Label htmlFor={id}>{label}</Label>
-      <SelectButton aria-expanded={isOpen} aria-controls={id} onClick={() => setIsOpen(!isOpen)}>
-        {value}
-        <Caret />
-      </SelectButton>
-      <ul ref={ref} className={listClassName} aria-hidden={isOpen} id={id}>
-        {items.map((e) => (
-          <li key={e}>
-            <SelectItemButton
-              data-active={value === e}
-              onClick={() => {
-                setIsOpen(false);
-                if (value !== e) onChange(e);
-              }}
-            >
-              {e}
-            </SelectItemButton>
-          </li>
-        ))}
-      </ul>
-    </SelectContainer>
+      <div ref={ref} className={containerClassName}>
+        <SelectButton aria-expanded={isOpen} aria-controls={id} onClick={() => setIsOpen(!isOpen)}>
+          {value}
+          <Caret />
+        </SelectButton>
+        <List aria-hidden={isOpen} id={id}>
+          {items.map((e) => (
+            <li key={e}>
+              <SelectItemButton
+                data-active={value === e}
+                onClick={() => {
+                  setIsOpen(false);
+                  if (value !== e) onChange(e);
+                }}
+              >
+                {e}
+              </SelectItemButton>
+            </li>
+          ))}
+        </List>
+      </div>
+    </div>
   );
 };
