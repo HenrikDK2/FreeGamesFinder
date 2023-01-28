@@ -1,7 +1,7 @@
 import Browser from "webextension-polyfill";
-import { IFreeGame } from "../../types/freegames";
+import { IFreeGame } from "../types/freegames";
 import { getGames } from "./getGames";
-import { updateGameState } from "../../utils";
+import { updateGameState } from "../utils";
 
 export const createNotification = (game: IFreeGame) => {
   Browser.notifications.create(game.title, {

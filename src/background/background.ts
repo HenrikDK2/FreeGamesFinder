@@ -1,5 +1,5 @@
 import Browser from "webextension-polyfill";
-import { checkForNewGames } from "./utils/notification";
+import { checkForNewGames } from "./notification";
 import { getGame, updateGameState } from "./../utils";
 
 Browser.notifications.onClicked.addListener((title) => {

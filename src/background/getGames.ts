@@ -1,5 +1,5 @@
-import { getProductType, getDOMFromUrl, getPlatform, sortGames, switchIcon, getGame } from "../../utils";
-import { IFreeGame } from "../../types/freegames";
+import { getProductType, getDOMFromUrl, getPlatform, sortGames, switchIcon, getGame } from "../utils";
+import { IFreeGame } from "../types/freegames";
 
 /* export const getEpicGames = async (): Promise<FreeGamesData | undefined> => {
   try {
