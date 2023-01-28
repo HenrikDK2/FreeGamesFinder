@@ -25,7 +25,6 @@ export const App: FunctionComponent<AppProps> = () => {
       }
     };
 
-    Browser.runtime.sendMessage(undefined, "get-free-games");
     Browser.runtime.onMessage.addListener(getFreeGamesData);
     return () => Browser.runtime.onMessage.removeListener(getFreeGamesData);
   }, []);
