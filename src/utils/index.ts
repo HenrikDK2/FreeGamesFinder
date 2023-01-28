@@ -21,21 +21,9 @@ export const getPlatform = (platform: string): Platform | undefined => {
   if (platform === "Steam") return "Steam";
 };
 
-export const sortGames = (games: IFreeGame[] | undefined): IFreeGame[] => {
-  if (games) {
-    return games.sort((a, b) => {
-      if (a.state.hasClicked === true && b.state.hasClicked === true) {
-        return 0;
-      } else if (a.state.hasClicked === true) {
-        return 1;
-      } else if (b.state.hasClicked === true) {
-        return -1;
-      } else {
-        return 0;
-      }
-    });
-  }
-  return [];
+export const sortGames = (games: IFreeGame[]): IFreeGame[] => {
+  if (!games) return [];
+  return games.sort((a, b) => Number(a.state.hasClicked) - Number(b.state.hasClicked));
 };
 
 // Check if any games haven't been clicked, if not, then let the icon remain as normal.

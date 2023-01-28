@@ -58,9 +58,11 @@ const ggDeals = async (): Promise<IFreeGame[] | undefined> => {
 };
 
 export const getGames = async (): Promise<IFreeGame[] | undefined> => {
-  const games = sortGames(await ggDeals());
-  localStorage.setItem("games", JSON.stringify(games));
-  switchIcon(games);
+  const games = await ggDeals();
 
-  return games;
+  if (games) {
+    localStorage.setItem("games", JSON.stringify(sortGames(games)));
+    switchIcon(games);
+    return games;
+  }
 };
