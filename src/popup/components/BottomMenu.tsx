@@ -1,5 +1,5 @@
 import { styled } from "goober";
-import { ComponentChildren, FunctionComponent } from "preact";
+import { FunctionComponent } from "preact";
 import { NavLink } from "./NavLink";
 import { IoMdHome, IoMdSettings } from "react-icons/io";
 
@@ -25,6 +25,5 @@ export const BottomMenu: FunctionComponent = () => (
       <NavLink text="Home" icon={<IoMdHome />} subRoutes={["/index.html"]} to="/" />
       <NavLink text="Settings" icon={<IoMdSettings />} to="/settings" />
     </Nav>
-    <div style={{ height: "80px" }}></div>
   </Menu>
 );
