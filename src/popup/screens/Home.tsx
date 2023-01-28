@@ -96,7 +96,6 @@ export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ freeGames }) =>
     updateGame({ ...game, state: { ...game.state, hasClicked: true } });
 
     window.open(game.url);
-    window.close();
   };
 
   return (
