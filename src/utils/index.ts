@@ -1,7 +1,7 @@
 import axios from "axios";
 import DOMPurify from "dompurify";
 import Browser from "webextension-polyfill";
-import { IFreeGameData, Platform, FreeGamesData } from "../types/freegames";
+import { IFreeGame, Platform } from "../types/freegames";
 
 export const getProductType = (type?: string) => {
   switch (type) {
@@ -21,7 +21,7 @@ export const getPlatform = (platform: string): Platform | undefined => {
   if (platform === "Steam") return "Steam";
 };
 
-export const sortGames = (games: FreeGamesData | undefined): FreeGamesData => {
+export const sortGames = (games: IFreeGame[] | undefined): IFreeGame[] => {
   if (games) {
     return games.sort((a, b) => {
       if (a.state.hasClicked === true && b.state.hasClicked === true) {
@@ -43,7 +43,7 @@ export const sortGames = (games: FreeGamesData | undefined): FreeGamesData => {
 const active = "assets/logo-32.png";
 const hidden = "assets/logo-32-hidden.png";
 
-export const switchIcon = (games: FreeGamesData) => {
+export const switchIcon = (games: IFreeGame[]) => {
   const foundOne = games.find((game) => !game.state.hasClicked);
   Browser.browserAction.setIcon({ path: foundOne ? active : hidden });
 };
@@ -57,13 +57,13 @@ export const getDOMFromUrl = async (url: string): Promise<HTMLElement | undefine
   }
 };
 
-export const getGame = (title: IFreeGameData["title"]): IFreeGameData | undefined => {
-  const games = getStorage("games") as FreeGamesData;
+export const getGame = (title: IFreeGame["title"]): IFreeGame | undefined => {
+  const games = getStorage<IFreeGame[]>("games");
   if (games) return games.find((game) => game.title === title);
 };
 
-export const updateGame = (data: IFreeGameData) => {
-  const games = getStorage("games") as FreeGamesData;
+export const updateGame = (data: IFreeGame) => {
+  const games = getStorage<IFreeGame[]>("games");
 
   if (games) {
     const newGames = games.map((game) => (game.title === data.title ? data : game));
@@ -72,7 +72,7 @@ export const updateGame = (data: IFreeGameData) => {
   }
 };
 
-export const getStorage = (key: string) => {
+export const getStorage = <T>(key: string): T | undefined => {
   const dataString = localStorage.getItem(key) || sessionStorage.getItem(key);
   if (dataString) return JSON.parse(dataString);
 

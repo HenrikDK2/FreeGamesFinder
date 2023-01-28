@@ -1,13 +1,14 @@
 import Browser from "webextension-polyfill";
-import { IGetFreeGames, RuntimeMessages } from "./types/runtimeMessage";
+import { RuntimeMessages, IMessageFreeGames } from "./types/runtimeMessage";
 import { getGames } from "./utils/getGames";
 import { checkForNewGames } from "./utils/notification";
 import { getStorage, updateGame } from "./utils";
+import { IFreeGame } from "./types/freegames";
 
 Browser.runtime.onMessage.addListener(async ({ msg }: { msg: RuntimeMessages }) => {
   if (msg === "get-free-games") {
     const data = await getGames();
-    const message: IGetFreeGames = {
+    const message: IMessageFreeGames = {
       data,
       status: data ? "success" : "error",
       msg,
@@ -20,15 +21,12 @@ Browser.runtime.onMessage.addListener(async ({ msg }: { msg: RuntimeMessages }) 
 });
 
 Browser.notifications.onClicked.addListener((id) => {
-  const game = getStorage(id);
+  const game = getStorage<IFreeGame>(id);
 
-  // Update game state
   if (game) {
     updateGame({ ...game, state: { hasClicked: true, hasSendNotification: true } });
+    Browser.tabs.create({ url: game.url });
   }
-
-  // Open url in a new tab
-  if (game.url) Browser.tabs.create({ url: game.url });
 });
 
 // On browser load check for new games

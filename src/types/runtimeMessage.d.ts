@@ -1,4 +1,4 @@
-import { FreeGamesData } from "./freegames";
+import { IFreeGame } from "./freegames";
 
 export enum EnumRuntimeMessages {
   "get-free-games",
@@ -11,8 +11,8 @@ export enum EnumStatus {
 export type Status = keyof typeof EnumStatus;
 export type RuntimeMessages = keyof typeof EnumRuntimeMessages;
 
-export interface IGetFreeGames {
+export interface IMessageFreeGames {
   status: Status;
   msg: "get-free-games";
-  data: FreeGamesData | undefined;
+  data: IFreeGame[] | undefined;
 }

@@ -16,7 +16,7 @@ export interface GameState {
   hasClicked: boolean;
 }
 
-export interface IFreeGameData {
+export interface IFreeGame {
   title: string;
   url: string;
   productType: ProductType;
@@ -24,5 +24,3 @@ export interface IFreeGameData {
   platform?: Platform;
   imageSrc?: string;
 }
-
-export type FreeGamesData = IFreeGameData[];

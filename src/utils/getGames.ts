@@ -1,5 +1,5 @@
 import { getProductType, getDOMFromUrl, getPlatform, sortGames, switchIcon, getGame } from ".";
-import { FreeGamesData } from "../types/freegames";
+import { IFreeGame } from "../types/freegames";
 
 /* export const getEpicGames = async (): Promise<FreeGamesData | undefined> => {
   try {
@@ -29,7 +29,7 @@ import { FreeGamesData } from "../types/freegames";
   }
 }; */
 
-const ggDeals = async (): Promise<FreeGamesData | undefined> => {
+const ggDeals = async (): Promise<IFreeGame[] | undefined> => {
   const htmlDocument = await getDOMFromUrl("https://gg.deals/deals/?maxPrice=0");
 
   if (htmlDocument) {
@@ -57,7 +57,7 @@ const ggDeals = async (): Promise<FreeGamesData | undefined> => {
   return undefined;
 };
 
-export const getGames = async (): Promise<FreeGamesData | undefined> => {
+export const getGames = async (): Promise<IFreeGame[] | undefined> => {
   const games = sortGames(await ggDeals());
   localStorage.setItem("games", JSON.stringify(games));
   switchIcon(games);
