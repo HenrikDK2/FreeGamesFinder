@@ -44,7 +44,7 @@ const sharedConfig = {
 module.exports = () => [
   {
     ...sharedConfig,
-    entry: "./src/background.ts",
+    entry: "./src/background/background.ts",
     output: {
       filename: "background.js",
       path: path.resolve(__dirname, "dist"),

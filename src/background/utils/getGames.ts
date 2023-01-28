@@ -1,5 +1,5 @@
-import { getProductType, getDOMFromUrl, getPlatform, sortGames, switchIcon, getGame } from ".";
-import { IFreeGame } from "../types/freegames";
+import { getProductType, getDOMFromUrl, getPlatform, sortGames, switchIcon, getGame } from "../../utils";
+import { IFreeGame } from "../../types/freegames";
 
 /* export const getEpicGames = async (): Promise<FreeGamesData | undefined> => {
   try {
@@ -53,8 +53,6 @@ const ggDeals = async (): Promise<IFreeGame[] | undefined> => {
       };
     });
   }
-
-  return undefined;
 };
 
 export const getGames = async (): Promise<IFreeGame[] | undefined> => {
