@@ -63,6 +63,4 @@ export const updateGame = (data: IFreeGame) => {
 export const getStorage = <T>(key: string): T | undefined => {
   const dataString = localStorage.getItem(key) || sessionStorage.getItem(key);
   if (dataString) return JSON.parse(dataString);
-
-  return undefined;
 };
