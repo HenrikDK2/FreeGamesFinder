@@ -1,7 +1,7 @@
 import { sortGames, switchIcon } from ".";
+import { GetStorage } from "../types";
 import { IFreeGame, GameState } from "../types/freegames";
 import { ISettings } from "../types/settings";
-import { StorageKey } from "../types/storage";
 
 const defaultSettings: ISettings = {
   hideClickedGames: false,
@@ -29,12 +29,12 @@ export const updateGameState = (game: IFreeGame, state: Partial<GameState>) => {
 };
 
 export const getGames = (): IFreeGame[] | undefined => {
-  const games = getStorage<IFreeGame[]>("games");
+  const games = getStorage("games");
   if (games) return games;
 };
 
 export const getSettings = (): ISettings => {
-  const settings = getStorage<ISettings>("settings");
+  const settings = getStorage("settings");
 
   if (settings) {
     return settings;
@@ -54,7 +54,7 @@ export const updateSettings = (data: Partial<ISettings>) => {
   }
 };
 
-export const getStorage = <T>(key: StorageKey): T | undefined => {
+export const getStorage: GetStorage = (key) => {
   const dataString = localStorage.getItem(key) || sessionStorage.getItem(key);
   if (dataString) return JSON.parse(dataString);
 };
