@@ -4,11 +4,7 @@ import Browser from "webextension-polyfill";
 import { IFreeGame, Platform } from "../types/freegames";
 
 export const getProductType = (type?: string) => {
-  switch (type) {
-    case "DLC":
-      return "DLC";
-  }
-
+  if (type === "DLC") return "DLC";
   return "GAME";
 };
 
