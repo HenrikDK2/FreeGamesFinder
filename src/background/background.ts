@@ -27,6 +27,7 @@ Browser.runtime.onMessage.addListener(async (type, _) => {
   if (type === "reload") {
     resetInternal();
     await checkForNewGames();
+    Browser.runtime.sendMessage(undefined, "update");
     return Promise.resolve("done");
   }
   return;
