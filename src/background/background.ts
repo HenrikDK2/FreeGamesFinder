@@ -5,6 +5,11 @@ import { minutesToMs, switchIcon } from "../utils";
 
 const { updateIntervalInMinutes, updateOnBrowserStart } = db.get("settings");
 let gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
+const resetInternal = () => {
+  const { updateIntervalInMinutes } = db.get("settings");
+  clearInterval(gamesListInterval);
+  gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
+};
 
 switchIcon(db.get("games"));
 if (updateOnBrowserStart) checkForNewGames();
@@ -18,13 +23,18 @@ Browser.notifications.onClicked.addListener((title) => {
   }
 });
 
+Browser.runtime.onMessage.addListener(async (type, _) => {
+  if (type === "reload") {
+    resetInternal();
+    await checkForNewGames();
+    return Promise.resolve("done");
+  }
+  return;
+});
+
 // Update popup games data when storage is updated
 window.addEventListener("storage", (e) => {
   Browser.runtime.sendMessage(undefined, "update");
 
-  if (e.key === "settings") {
-    const { updateIntervalInMinutes } = db.get("settings");
-    clearInterval(gamesListInterval);
-    gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
-  }
+  if (e.key === "settings") resetInternal();
 });
