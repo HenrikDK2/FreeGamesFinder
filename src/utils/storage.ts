@@ -1,6 +1,6 @@
 import { sortGames, switchIcon } from ".";
 import { ISettings } from "../types/settings";
-import { IDB, GetStorage } from "../types/storage";
+import { IDB } from "../types/storage";
 
 const defaultSettings: ISettings = {
   hideClickedGames: false,
@@ -36,9 +36,4 @@ export const db: IDB = {
   find(key, data) {
     if (key === "game") return db.get("games").find((game) => game.title === data.title);
   },
-};
-
-export const getStorage: GetStorage = (key) => {
-  const dataString = localStorage.getItem(key) || sessionStorage.getItem(key);
-  if (dataString) return JSON.parse(dataString);
 };

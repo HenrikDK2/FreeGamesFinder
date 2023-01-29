@@ -7,10 +7,6 @@ export interface IStorage {
 }
 
 export type StorageKey = keyof IStorage;
-export type GetStorage = {
-  (key: "settings"): ISettings | undefined;
-  (key: "games"): IFreeGame[] | undefined;
-};
 
 export interface IDB {
   get: { (key: "games"): IFreeGame[]; (key: "settings"): ISettings };
