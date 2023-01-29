@@ -1,7 +1,7 @@
 import Browser from "webextension-polyfill";
 import { IFreeGame } from "../types/freegames";
 import { getGamesFromSources } from "./games";
-import { updateGameState } from "../utils/storage";
+import { db } from "../utils/storage";
 
 export const createNotification = (game: IFreeGame) => {
   Browser.notifications.create(game.title, {
@@ -15,7 +15,7 @@ export const createNotification = (game: IFreeGame) => {
     title: game.title,
   });
 
-  updateGameState(game, { hasSendNotification: true });
+  db.update("game", { ...game, state: { ...game.state, hasSendNotification: true } });
 };
 
 export const checkForNewGames = async () => {

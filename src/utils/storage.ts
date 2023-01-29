@@ -1,7 +1,6 @@
 import { sortGames, switchIcon } from ".";
-import { GetStorage } from "../types";
-import { IFreeGame, GameState } from "../types/freegames";
 import { ISettings } from "../types/settings";
+import { IDB, GetStorage } from "../types/storage";
 
 const defaultSettings: ISettings = {
   hideClickedGames: false,
@@ -9,49 +8,34 @@ const defaultSettings: ISettings = {
   updateOnBrowserStart: true,
 };
 
-export const getGame = (title: IFreeGame["title"]): IFreeGame | undefined => {
-  const games = getGames();
-  if (games) return games.find((game) => game.title === title);
-};
+export const db: IDB = {
+  get(key) {
+    if (key === "games") {
+      const games = localStorage.getItem("games");
+      if (!games) return [];
+      return JSON.parse(games);
+    }
 
-export const updateGame = (data: IFreeGame) => {
-  const games = getGames();
+    if (key === "settings") {
+      const settings = localStorage.getItem("settings");
+      if (!settings) return defaultSettings;
+      return JSON.parse(settings);
+    }
+  },
 
-  if (games) {
-    const newGames = games.map((game) => (game.title === data.title ? data : game));
-    localStorage.setItem("games", JSON.stringify(sortGames(newGames)));
-    switchIcon(newGames);
-  }
-};
+  update(key, data) {
+    if (key === "settings") localStorage.setItem("settings", JSON.stringify({ ...db.get("settings"), ...data }));
 
-export const updateGameState = (game: IFreeGame, state: Partial<GameState>) => {
-  updateGame({ ...game, state: { ...game.state, ...state } });
-};
+    if (key === "game" && "title" in data) {
+      const newGames = db.get("games").map((game) => (game.title === data.title ? data : game));
+      localStorage.setItem("games", JSON.stringify(sortGames(newGames)));
+      switchIcon(newGames);
+    }
+  },
 
-export const getGames = (): IFreeGame[] | undefined => {
-  const games = getStorage("games");
-  if (games) return games;
-};
-
-export const getSettings = (): ISettings => {
-  const settings = getStorage("settings");
-
-  if (settings) {
-    return settings;
-  } else {
-    localStorage.setItem("settings", JSON.stringify(defaultSettings));
-    return defaultSettings;
-  }
-};
-
-export const updateSettings = (data: Partial<ISettings>) => {
-  const settings = getSettings();
-
-  if (settings) {
-    const newSettings = { ...settings, ...data };
-    localStorage.setItem("settings", JSON.stringify(newSettings));
-    return newSettings;
-  }
+  find(key, data) {
+    if (key === "game") return db.get("games").find((game) => game.title === data.title);
+  },
 };
 
 export const getStorage: GetStorage = (key) => {

@@ -7,17 +7,17 @@ import { HomeScreen } from "./screens/Home";
 import { BrowserMessages } from "../types/messages";
 import { setup } from "goober";
 import { SettingsScreen } from "./screens/Settings";
-import { getGames, getSettings } from "../utils/storage";
+import { db } from "../utils/storage";
 import { RootState } from "../types";
 setup(h);
 
 export const App: FunctionComponent = () => {
-  const [state, setState] = useState<RootState>({ games: getGames(), settings: getSettings() });
+  const [state, setState] = useState<RootState>({ games: db.get("games"), settings: db.get("settings") });
 
   useEffect(() => {
     const messages = (msg: BrowserMessages) => {
       if (msg === "update") {
-        setState({ games: getGames(), settings: getSettings() });
+        setState({ games: db.get("games"), settings: db.get("settings") });
       }
     };
 

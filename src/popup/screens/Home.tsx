@@ -3,7 +3,7 @@ import { ComponentChildren, FunctionComponent } from "preact";
 import { RootState } from "../../types";
 import { IFreeGame } from "../../types/freegames";
 import { ISettings } from "../../types/settings";
-import { updateGameState } from "../../utils/storage";
+import { db } from "../../utils/storage";
 import { Layout } from "../components/Layout";
 import { StoreIcon } from "../components/StoreIcon";
 import { IoMdSad } from "react-icons/io";
@@ -92,7 +92,7 @@ const NoGamesContainer = styled("div")`
 
 const clickHandler = (e: MouseEvent, game: IFreeGame) => {
   e.preventDefault();
-  updateGameState(game, { hasClicked: true });
+  db.update("game", { ...game, state: { ...game.state, hasClicked: true } });
   window.open(game.url);
 };
 

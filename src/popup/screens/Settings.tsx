@@ -4,7 +4,7 @@ import { Select } from "../components/Select";
 import { Checkbox } from "../components/Checkbox";
 import { css, styled } from "goober";
 import { ISettings } from "../../types/settings";
-import { updateSettings } from "../../utils/storage";
+import { db } from "../../utils/storage";
 import manifest from "../../../public/manifest.json";
 
 interface SettingsScreenProps {
@@ -23,7 +23,7 @@ const refItems = {
 const onChangeHandler = (e: string) => {
   const entry = Object.entries(refItems).find(([_, value]) => e === value);
   if (entry) {
-    updateSettings({ updateIntervalInMinutes: entry[0] as unknown as ISettings["updateIntervalInMinutes"] });
+    db.update("settings", { updateIntervalInMinutes: entry[0] as unknown as ISettings["updateIntervalInMinutes"] });
   }
 };
 
@@ -51,12 +51,12 @@ export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ setting
         value={refItems[`${settings.updateIntervalInMinutes}`]}
       />
       <Checkbox
-        onClick={() => updateSettings({ hideClickedGames: !settings.hideClickedGames })}
+        onClick={() => db.update("settings", { hideClickedGames: !settings.hideClickedGames })}
         isChecked={settings.hideClickedGames}
         label="Hide claimed games from list"
       />
       <Checkbox
-        onClick={() => updateSettings({ updateOnBrowserStart: !settings.updateOnBrowserStart })}
+        onClick={() => db.update("settings", { updateOnBrowserStart: !settings.updateOnBrowserStart })}
         isChecked={settings.updateOnBrowserStart}
         label="Update games list on browser start"
       />
