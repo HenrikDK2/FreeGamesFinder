@@ -14,7 +14,7 @@ interface HomeScreenProps {
 
 const GamesList = styled("ul")`
   list-style: none;
-  padding: 0;
+  padding: 0 0 100px 0;
   margin: 0;
 `;
 
@@ -56,6 +56,7 @@ const Details = styled("div")`
     margin: 0;
     padding: 0;
     font-size: 20px;
+    overflow: hidden;
   }
 
   & > p {
@@ -69,6 +70,7 @@ const ImageContainer = styled("div")`
   position: relative;
   width: 80px;
   height: 100%;
+  flex-shrink: 0;
 
   & > img {
     border-radius: 6px 0 0 6px;
@@ -96,6 +98,11 @@ const clickHandler = (e: MouseEvent, game: IFreeGame) => {
   window.open(game.url);
 };
 
+const formatTitle = (str: string): string => {
+  if (str.length >= 30) str = str.substring(0, 30) + "...";
+  return str;
+};
+
 export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
   const noGames = state.games === undefined || state.games.length < 1;
 
@@ -104,13 +111,13 @@ export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
       <GamesList>
         {state.games?.map((game) => (
           <GameItem key={game.url} settings={state.settings} game={game}>
-            <a href={game.url} alt="" onClick={(e) => clickHandler(e, game)}>
+            <a title={game.title} href={game.url} alt="" onClick={(e) => clickHandler(e, game)}>
               <ImageContainer>
                 <img src={game.imageSrc} alt={"Image of " + game.title} />
                 <StoreIcon platform={game.platform} />
               </ImageContainer>
               <Details>
-                <h2>{game.title}</h2>
+                <h2>{formatTitle(game.title)}</h2>
                 <p>{game.productType}</p>
               </Details>
             </a>

@@ -4,17 +4,19 @@ import Browser from "webextension-polyfill";
 import { IFreeGame, Platform } from "../types/freegames";
 
 export const getProductType = (type?: string) => {
-  if (type === "DLC") return "DLC";
+  if (type) type = type.toLowerCase().replace(/ /g, "");
+
+  if (type === "dlc") return "DLC";
   return "GAME";
 };
 
 export const getPlatform = (platform: string): Platform | undefined => {
-  if (platform === "Epic Games Store") return "EpicGamesStore";
-  if (platform === "EpicGamesStore") return "EpicGamesStore";
+  platform = platform.toLowerCase().replace(/ /g, "");
 
-  if (platform === "Gog.com") return "GoG";
-
-  if (platform === "Steam") return "Steam";
+  if (platform === "epicgamesstore") return "EpicGamesStore";
+  if (platform === "gog.com") return "GoG";
+  if (platform === "gog") return "GoG";
+  if (platform === "steam") return "Steam";
 };
 
 export const sortGames = (games: IFreeGame[]): IFreeGame[] => {

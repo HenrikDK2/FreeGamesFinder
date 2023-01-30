@@ -3,6 +3,7 @@ import { IFreeGame } from "../types/freegames";
 import { db } from "../utils/storage";
 import { EpicGamesRequestData } from "../types/epicgames";
 import axios from "axios";
+import { GamerPowerRequestData } from "../types/gamerpower";
 
 export const getEpicGames = async (): Promise<IFreeGame[]> => {
   try {
@@ -41,7 +42,38 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
   return [];
 };
 
-const ggDeals = async (): Promise<IFreeGame[]> => {
+const getGamerpower = async (): Promise<IFreeGame[]> => {
+  try {
+    const { status, data } = await axios<GamerPowerRequestData>({
+      url: "https://www.gamerpower.com/api/filter?platform=epic-games-store.steam.gog&type=game&sort-by=date",
+      timeout: 3000,
+    });
+
+    if (status === 200) {
+      return data.map((game) => {
+        const state = db.find("game", { title: game.title })?.state || {
+          hasClicked: false,
+          hasSendNotification: false,
+        };
+
+        return {
+          state: state,
+          title: game.title,
+          imageSrc: game.thumbnail,
+          url: game.open_giveaway_url,
+          platform: getPlatform(game.platforms.split(",")[1]),
+          productType: getProductType(game.type),
+        };
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  return [];
+};
+
+const getGGDeals = async (): Promise<IFreeGame[]> => {
   try {
     const htmlDocument = await getDOMFromUrl("https://gg.deals/deals/?maxPrice=0");
 
@@ -77,7 +109,11 @@ const formatTitle = (title: string) => title.toLowerCase().replace(/ /g, "");
 const uniqueGames = (games: IFreeGame[]): IFreeGame[] => {
   return games.filter((game, i) => {
     const index = games.findIndex((product) => {
-      if (formatTitle(product.title) === formatTitle(game.title) && game.platform === product.platform) {
+      if (
+        formatTitle(game.title).includes(formatTitle(product.title)) &&
+        game.platform === product.platform &&
+        game.productType === product.productType
+      ) {
         return true;
       } else {
         return false;
@@ -90,7 +126,11 @@ const uniqueGames = (games: IFreeGame[]): IFreeGame[] => {
 };
 
 export const getGamesFromSources = async (): Promise<IFreeGame[]> => {
-  const games: IFreeGame[] = uniqueGames([...(await getEpicGames()), ...(await ggDeals())]);
+  const games: IFreeGame[] = uniqueGames([
+    ...(await getEpicGames()),
+    ...(await getGGDeals()),
+    ...(await getGamerpower()),
+  ]);
   db.update("games", games || []);
 
   return games;
