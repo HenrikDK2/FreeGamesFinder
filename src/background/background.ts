@@ -5,6 +5,7 @@ import { minutesToMs, switchIcon } from "../utils";
 
 const { updateIntervalInMinutes, updateOnBrowserStart } = db.get("settings");
 let gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
+
 const resetInternal = () => {
   const { updateIntervalInMinutes } = db.get("settings");
   clearInterval(gamesListInterval);
@@ -21,6 +22,11 @@ Browser.notifications.onClicked.addListener((title) => {
     db.update("game", { ...game, state: { ...game.state, hasClicked: true } });
     Browser.tabs.create({ url: game.url });
   }
+});
+
+Browser.notifications.onShown.addListener(() => {
+  Browser.runtime.sendMessage(undefined, "update");
+  return true;
 });
 
 Browser.runtime.onMessage.addListener(async (type, _) => {
