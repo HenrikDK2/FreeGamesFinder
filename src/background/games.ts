@@ -90,7 +90,7 @@ const uniqueGames = (games: IFreeGame[]): IFreeGame[] => {
 };
 
 export const getGamesFromSources = async (): Promise<IFreeGame[]> => {
-  const games: IFreeGame[] = uniqueGames([...(await getEpicGames()), ...(await getEpicGames()), ...(await ggDeals())]);
+  const games: IFreeGame[] = uniqueGames([...(await getEpicGames()), ...(await ggDeals())]);
   switchIcon(games);
 
   if (games) db.update("games", games);
