@@ -25,6 +25,9 @@ export const db: IDB = {
 
   update(key, data) {
     if (key === "settings") localStorage.setItem("settings", JSON.stringify({ ...db.get("settings"), ...data }));
+    if (key === "games" && Array.isArray(data)) {
+      localStorage.setItem("games", JSON.stringify(sortGames(data)));
+    }
 
     if (key === "game" && "title" in data) {
       const newGames = db.get("games").map((game) => (game.title === data.title ? data : game));

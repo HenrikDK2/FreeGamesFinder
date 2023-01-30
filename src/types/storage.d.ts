@@ -13,6 +13,7 @@ export interface IDB {
   find: { (key: "game", data: { title: string }): IFreeGame | undefined };
   update: {
     (key: "game", data: IFreeGame): void;
+    (key: "games", data: IFreeGame[]): void;
     (key: "settings", data: Partial<ISettings>): void;
   };
 }
