@@ -52,7 +52,7 @@ const getGamerpower = async (): Promise<IFreeGame[]> => {
     if (status === 200) {
       return data.map((game) => {
         const title = game.title.replace(/ \((Steam|IndieGala|EpicGames|itch\.io|itchio|GOG)\)| Giveaway/gi, "");
-        const state = db.find("game", { title: game.title })?.state || {
+        const state = db.find("game", { title })?.state || {
           hasClicked: false,
           hasSendNotification: false,
         };
@@ -132,6 +132,7 @@ export const getGamesFromSources = async (): Promise<IFreeGame[]> => {
     ...(await getGGDeals()),
     ...(await getGamerpower()),
   ]);
+
   db.update("games", games || []);
 
   return games;
