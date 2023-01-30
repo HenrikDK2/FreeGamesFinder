@@ -6,6 +6,7 @@ export enum EnumProductType {
 export enum EnumPlatform {
   "EpicGamesStore",
   "Steam",
+  "itch.io",
   "GoG",
 }
 

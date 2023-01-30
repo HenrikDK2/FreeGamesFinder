@@ -42,11 +42,16 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
   return [];
 };
 
-const getGamerpower = async (): Promise<IFreeGame[]> => {
+const getGamerpower = async (drmFreeGames: boolean): Promise<IFreeGame[]> => {
   try {
     const { status, data } = await axios<GamerPowerRequestData>({
-      url: "https://www.gamerpower.com/api/filter?platform=epic-games-store.steam.gog&type=game&sort-by=date",
+      url: "https://www.gamerpower.com/api/filter",
       timeout: 3000,
+      params: {
+        platform: drmFreeGames ? "epic-games-store.steam.gog.itchio.drm-free" : "epic-games-store.steam.gog",
+        type: "game",
+        "sort-by": "date",
+      },
     });
 
     if (status === 200) {
@@ -62,7 +67,7 @@ const getGamerpower = async (): Promise<IFreeGame[]> => {
           title,
           imageSrc: game.thumbnail,
           url: game.open_giveaway_url,
-          platform: getPlatform(game.platforms.split(",")[1]),
+          platform: getPlatform(game.platforms.split(",")[1] || game.platforms),
           productType: getProductType(game.type),
         };
       });
@@ -127,10 +132,12 @@ const uniqueGames = (games: IFreeGame[]): IFreeGame[] => {
 };
 
 export const getGamesFromSources = async (): Promise<IFreeGame[]> => {
+  const { drmFreeGames } = db.get("settings");
+
   const games: IFreeGame[] = uniqueGames([
     ...(await getEpicGames()),
     ...(await getGGDeals()),
-    ...(await getGamerpower()),
+    ...(await getGamerpower(drmFreeGames)),
   ]);
 
   db.update("games", games || []);

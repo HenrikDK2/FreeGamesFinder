@@ -15,8 +15,8 @@ export const App: FunctionComponent = () => {
   const [state, setState] = useState<RootState>({ games: db.get("games"), settings: db.get("settings") });
 
   useEffect(() => {
-    const messages = (msg: BrowserMessages) => {
-      if (msg === "update") {
+    const messages = ({ key }: BrowserMessages) => {
+      if (key === "reload") {
         setState({ games: db.get("games"), settings: db.get("settings") });
       }
     };

@@ -16,6 +16,8 @@ export const getPlatform = (platform: string): Platform | undefined => {
   if (platform === "epicgamesstore") return "EpicGamesStore";
   if (platform === "gog.com") return "GoG";
   if (platform === "gog") return "GoG";
+  if (platform === "itch.io") return "itch.io";
+  if (platform === "itchio") return "itch.io";
   if (platform === "steam") return "Steam";
 };
 

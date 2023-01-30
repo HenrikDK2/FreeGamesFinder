@@ -2,6 +2,7 @@ import Browser from "webextension-polyfill";
 import { checkForNewGames } from "./notification";
 import { db } from "./../utils/storage";
 import { minutesToMs } from "../utils";
+import { BackgroundMessages } from "../types/messages";
 
 const { updateIntervalInMinutes, updateOnBrowserStart } = db.get("settings");
 let gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
@@ -10,6 +11,13 @@ const resetInternal = () => {
   const { updateIntervalInMinutes } = db.get("settings");
   clearInterval(gamesListInterval);
   gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
+};
+
+const browserUpdate = async () => {
+  resetInternal();
+  await checkForNewGames();
+  Browser.runtime.sendMessage(undefined, { key: "reload" });
+  return Promise.resolve("done");
 };
 
 if (updateOnBrowserStart) checkForNewGames();
@@ -23,24 +31,25 @@ Browser.notifications.onClicked.addListener((title) => {
   }
 });
 
-Browser.notifications.onShown.addListener(() => {
-  Browser.runtime.sendMessage(undefined, "update");
-  return true;
-});
+Browser.runtime.onMessage.addListener(async (msg: BackgroundMessages) => {
+  console.log(JSON.stringify(msg));
+  switch (msg.key) {
+    case "update": {
+      return browserUpdate();
+    }
 
-Browser.runtime.onMessage.addListener(async (type, _) => {
-  if (type === "reload") {
-    resetInternal();
-    await checkForNewGames();
-    Browser.runtime.sendMessage(undefined, "update");
-    return Promise.resolve("done");
+    case "reload": {
+      Browser.runtime.sendMessage(undefined, { key: "reload" });
+    }
+
+    case "settings": {
+      resetInternal();
+      Browser.runtime.sendMessage(undefined, { key: "reload" });
+      if ("update" in msg && msg.update) browserUpdate();
+    }
+
+    default: {
+      return true;
+    }
   }
-  return;
-});
-
-// Update popup games data when storage is updated
-window.addEventListener("storage", (e) => {
-  Browser.runtime.sendMessage(undefined, "update");
-
-  if (e.key === "settings") resetInternal();
 });

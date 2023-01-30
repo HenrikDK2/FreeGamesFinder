@@ -90,11 +90,16 @@ export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ setting
         isChecked={settings.updateOnBrowserStart}
         label="Update games list on browser start"
       />
+      <Checkbox
+        onClick={() => db.update("settings", { drmFreeGames: !settings.drmFreeGames })}
+        isChecked={settings.drmFreeGames}
+        label="Include DRM Free games"
+      />
       <ReloadButton
         data-spin={buttonSpin}
         onClick={() => {
           setButtonSpin(true);
-          Browser.runtime.sendMessage(undefined, "reload").finally(() => setButtonSpin(false));
+          Browser.runtime.sendMessage(undefined, { key: "update" }).finally(() => setButtonSpin(false));
         }}
       >
         <IoReloadCircle />
