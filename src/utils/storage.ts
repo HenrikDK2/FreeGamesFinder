@@ -25,7 +25,7 @@ export const db: IDB = {
     if (key === "settings") {
       const settings = localStorage.getItem("settings");
       if (!settings) return defaultSettings;
-      return JSON.parse(settings);
+      return { ...defaultSettings, ...JSON.parse(settings) };
     }
   },
 
