@@ -1,4 +1,4 @@
-import { getProductType, getDOMFromUrl, getPlatform, sortGames, switchIcon } from "../utils";
+import { getProductType, getDOMFromUrl, getPlatform } from "../utils";
 import { IFreeGame } from "../types/freegames";
 import { db } from "../utils/storage";
 import { EpicGamesRequestData } from "../types/epicgames";
@@ -91,9 +91,7 @@ const uniqueGames = (games: IFreeGame[]): IFreeGame[] => {
 
 export const getGamesFromSources = async (): Promise<IFreeGame[]> => {
   const games: IFreeGame[] = uniqueGames([...(await getEpicGames()), ...(await ggDeals())]);
-  switchIcon(games);
-
-  if (games) db.update("games", games);
+  db.update("games", games || []);
 
   return games;
 };

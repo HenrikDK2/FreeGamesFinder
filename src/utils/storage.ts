@@ -12,8 +12,14 @@ export const db: IDB = {
   get(key) {
     if (key === "games") {
       const games = localStorage.getItem("games");
-      if (!games) return [];
-      return JSON.parse(games);
+
+      if (!games) {
+        switchIcon([]);
+        return [];
+      } else {
+        switchIcon(JSON.parse(games));
+        return JSON.parse(games);
+      }
     }
 
     if (key === "settings") {
@@ -27,6 +33,7 @@ export const db: IDB = {
     if (key === "settings") localStorage.setItem("settings", JSON.stringify({ ...db.get("settings"), ...data }));
     if (key === "games" && Array.isArray(data)) {
       localStorage.setItem("games", JSON.stringify(sortGames(data)));
+      switchIcon(data);
     }
 
     if (key === "game" && "title" in data) {

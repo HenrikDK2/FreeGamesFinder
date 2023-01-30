@@ -1,7 +1,7 @@
 import Browser from "webextension-polyfill";
 import { checkForNewGames } from "./notification";
 import { db } from "./../utils/storage";
-import { minutesToMs, switchIcon } from "../utils";
+import { minutesToMs } from "../utils";
 
 const { updateIntervalInMinutes, updateOnBrowserStart } = db.get("settings");
 let gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
@@ -12,7 +12,6 @@ const resetInternal = () => {
   gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
 };
 
-switchIcon(db.get("games"));
 if (updateOnBrowserStart) checkForNewGames();
 
 Browser.notifications.onClicked.addListener((title) => {
