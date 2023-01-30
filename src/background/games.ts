@@ -51,6 +51,7 @@ const getGamerpower = async (): Promise<IFreeGame[]> => {
 
     if (status === 200) {
       return data.map((game) => {
+        const title = game.title.replace(/ \((Steam|IndieGala|EpicGames|itch\.io|itchio|GOG)\)| Giveaway/gi, "");
         const state = db.find("game", { title: game.title })?.state || {
           hasClicked: false,
           hasSendNotification: false,
@@ -58,7 +59,7 @@ const getGamerpower = async (): Promise<IFreeGame[]> => {
 
         return {
           state: state,
-          title: game.title,
+          title,
           imageSrc: game.thumbnail,
           url: game.open_giveaway_url,
           platform: getPlatform(game.platforms.split(",")[1]),
