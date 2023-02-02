@@ -18,8 +18,8 @@ const GamesList = styled("ul")`
   margin: 0;
 `;
 
-const GameItem = styled("li")(({ game, settings }: { game: IFreeGame; settings: ISettings }) => ({
-  display: settings.hideClickedGames && game.state.hasClicked ? "none" : "block",
+const GameItem = styled("li")(({ game }: { game: IFreeGame }) => ({
+  display: "block",
   height: "100px",
   backgroundColor: "var(--background-level-2)",
   borderRadius: "6px",
@@ -78,6 +78,7 @@ const NoGamesContainer = styled("div")`
   text-align: center;
   user-select: none;
   font-size: 1.5rem;
+  margin-bottom: 90px;
   opacity: 0.2;
   svg {
     margin-bottom: -2rem;
@@ -104,12 +105,16 @@ const formatTitle = (str: string): string => {
 };
 
 export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
-  const noGames = state.games === undefined || state.games.length < 1;
+  let games = state.games;
+
+  if (state.settings.hideClickedGames === true) {
+    games = games?.filter((e) => !e.state.hasClicked);
+  }
 
   return (
     <Layout>
       <GamesList>
-        {state.games?.map((game) => (
+        {games?.map((game) => (
           <GameItem key={game.url} settings={state.settings} game={game}>
             <a title={game.title} href={game.url} alt="" onClick={(e) => clickHandler(e, game)}>
               <ImageContainer>
@@ -125,7 +130,7 @@ export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
         ))}
       </GamesList>
 
-      {noGames && (
+      {games?.length === 0 && (
         <NoGamesContainer>
           <IoMdSad />
           <h3>No free games</h3>
