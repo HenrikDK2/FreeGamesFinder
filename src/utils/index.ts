@@ -42,7 +42,7 @@ export const minutesToMs = (number: number) => 1000 * number * 60;
 
 export const getDOMFromUrl = async (url: string): Promise<HTMLElement | undefined> => {
   try {
-    const { data } = await axios({ url, timeout: 3000 });
+    const { data } = await axios({ url, timeout: 1000 });
     return DOMPurify.sanitize(data, { RETURN_DOM: true });
   } catch (error) {
     console.error(`Error fetching HTML: ${error}`);
