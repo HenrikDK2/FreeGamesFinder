@@ -5,3 +5,5 @@ declare module "*.svg" {
 
   export default ReactComponent;
 }
+
+declare module "*.jpg";

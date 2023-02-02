@@ -71,13 +71,6 @@ const ImageContainer = styled("div")`
   width: 80px;
   height: 100%;
   flex-shrink: 0;
-
-  & > img {
-    border-radius: 6px 0 0 6px;
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
-  }
 `;
 
 const NoGamesContainer = styled("div")`
@@ -90,6 +83,13 @@ const NoGamesContainer = styled("div")`
     margin-bottom: -2rem;
     font-size: 7rem;
   }
+`;
+
+const Image = styled("img")`
+  border-radius: 6px 0 0 6px;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 `;
 
 const clickHandler = (e: MouseEvent, game: IFreeGame) => {
@@ -113,7 +113,7 @@ export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
           <GameItem key={game.url} settings={state.settings} game={game}>
             <a title={game.title} href={game.url} alt="" onClick={(e) => clickHandler(e, game)}>
               <ImageContainer>
-                <img src={game.imageSrc} alt={"Image of " + game.title} />
+                <Image src={game.imageSrc} alt={"Image of " + game.title} />
                 <StoreIcon platform={game.platform} />
               </ImageContainer>
               <Details>
