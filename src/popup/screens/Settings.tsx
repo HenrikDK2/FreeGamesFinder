@@ -41,6 +41,7 @@ const Version = styled("p")`
 
 const layoutClassName = css`
   gap: 1.5rem;
+  overflow-y: scroll;
 `;
 
 const ReloadButton = styled("button")`
@@ -54,7 +55,7 @@ const ReloadButton = styled("button")`
   opacity: 0.5;
   text-align: center;
   width: fit-content;
-  margin: auto auto 0;
+  margin: 1rem auto 0;
   transition: all 0.2s ease;
   &:hover {
     opacity: 1;
@@ -94,6 +95,11 @@ export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ setting
         onClick={() => db.update("settings", { drmFreeGames: !settings.drmFreeGames })}
         isChecked={settings.drmFreeGames}
         label="Include DRM Free games"
+      />
+      <Checkbox
+        onClick={() => db.update("settings", { notifications: !settings.notifications })}
+        isChecked={settings.notifications}
+        label="Allow browser notifications"
       />
       <ReloadButton
         data-spin={buttonSpin}

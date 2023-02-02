@@ -20,8 +20,9 @@ export const createNotification = (game: IFreeGame) => {
 
 export const checkForNewGames = async () => {
   const games = await getGamesFromSources();
+  const { notifications } = db.get("settings");
 
-  if (games) {
+  if (games && notifications) {
     for (let i = 0; i < games.length; i++) {
       if (!games[i].state.hasSendNotification) {
         createNotification(games[i]);

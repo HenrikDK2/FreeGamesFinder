@@ -7,6 +7,7 @@ const defaultSettings: ISettings = {
   hideClickedGames: false,
   updateIntervalInMinutes: 60,
   updateOnBrowserStart: true,
+  notifications: true,
   drmFreeGames: false,
 };
 
