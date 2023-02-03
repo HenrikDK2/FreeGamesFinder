@@ -56,7 +56,7 @@ const getGamerpower = async (drmFreeGames: boolean): Promise<IFreeGame[]> => {
 
     if (status === 200) {
       return data.map((game) => {
-        const title = game.title.replace(/ \((Steam|IndieGala|EpicGames|itch\.io|itchio|GOG)\)| Giveaway/gi, "");
+        const title = game.title.replace(/ \((Steam|IndieGala|Epic\s*Games|itch\.io|itchio|GOG)\)| Giveaway/gi, "");
         const state = db.find("game", { title })?.state || {
           hasClicked: false,
           hasSendNotification: false,
