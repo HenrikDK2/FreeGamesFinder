@@ -5,6 +5,7 @@ import EpicLogo from "../../assets/epic.svg";
 import SteamLogo from "../../assets/steam.svg";
 import GoGLogo from "../../assets/gog.svg";
 import itchioSrc from "../../assets/itchio.jpg";
+import indiegalaSrc from "../../assets/indiegala.png";
 
 interface StoreIconProps {
   platform?: Platform;
@@ -24,6 +25,7 @@ export const StoreIcon: FunctionComponent<StoreIconProps> = ({ platform }) => {
   if (platform === "EpicGamesStore") return <EpicLogo className={IconClassName} />;
   if (platform === "Steam") return <SteamLogo className={IconClassName} />;
   if (platform === "itch.io") return <img className={IconClassName} src={itchioSrc} />;
+  if (platform === "IndieGala") return <img className={IconClassName} src={indiegalaSrc} />;
 
   return null;
 };

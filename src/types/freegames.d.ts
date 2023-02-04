@@ -8,6 +8,8 @@ export enum EnumPlatform {
   "Steam",
   "itch.io",
   "GoG",
+  "IndieGala",
+  "GX.games",
 }
 
 export type ProductType = keyof typeof EnumProductType;

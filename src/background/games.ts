@@ -56,6 +56,21 @@ const getGamerpower = async (drmFreeGames: boolean): Promise<IFreeGame[]> => {
 
     if (status === 200) {
       return data.map((game) => {
+        const platformRegex = /\(Steam|IndieGala|Epic\s*Games|itch\.io|itchio|GOG\)/gi;
+        let platform: string | undefined;
+
+        const titlePlatformMatch = game.title.match(platformRegex);
+        const descPlatformMatch = game.description.match(platformRegex);
+        const platformSplit = game.platforms.split(",");
+
+        if (platformSplit.length >= 2 && !platformSplit[1].includes("DRM-Free")) {
+          platform = platformSplit[1];
+        } else if (titlePlatformMatch) {
+          platform = titlePlatformMatch[0];
+        } else if (descPlatformMatch) {
+          platform = descPlatformMatch[0];
+        }
+
         const title = game.title.replace(/ \((Steam|IndieGala|Epic\s*Games|itch\.io|itchio|GOG)\)| Giveaway/gi, "");
         const state = db.find("game", { title })?.state || {
           hasClicked: false,
@@ -67,7 +82,7 @@ const getGamerpower = async (drmFreeGames: boolean): Promise<IFreeGame[]> => {
           title,
           imageSrc: game.thumbnail,
           url: game.open_giveaway_url,
-          platform: getPlatform(game.platforms.split(",")[1] || game.platforms),
+          platform: getPlatform(platform || game.platforms),
           productType: getProductType(game.type),
         };
       });
