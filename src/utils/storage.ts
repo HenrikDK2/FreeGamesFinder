@@ -14,14 +14,15 @@ const defaultSettings: ISettings = {
 export const db: IDB = {
   get(key) {
     if (key === "games") {
-      const games = localStorage.getItem("games");
+      const dataString = localStorage.getItem("games");
 
-      if (!games) {
+      if (!dataString) {
         switchIcon([]);
         return [];
       } else {
-        switchIcon(JSON.parse(games));
-        return JSON.parse(games);
+        const games = JSON.parse(dataString);
+        switchIcon(games);
+        return games;
       }
     }
 
