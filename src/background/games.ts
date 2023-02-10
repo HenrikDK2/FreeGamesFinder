@@ -9,7 +9,7 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
   try {
     const { status, data } = await axios<EpicGamesRequestData>({
       url: "https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions",
-      timeout: 1000,
+      timeout: 3000,
     });
 
     if (status === 200) {
@@ -46,7 +46,7 @@ const getGamerpower = async (drmFreeGames: boolean): Promise<IFreeGame[]> => {
   try {
     const { status, data } = await axios<GamerPowerRequestData>({
       url: "https://www.gamerpower.com/api/filter",
-      timeout: 1000,
+      timeout: 3000,
       params: {
         platform: drmFreeGames ? "epic-games-store.steam.gog.itchio.drm-free" : "epic-games-store.steam.gog",
         type: "game",
