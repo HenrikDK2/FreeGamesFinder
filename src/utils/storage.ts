@@ -49,14 +49,7 @@ export const db: IDB = {
     }
 
     if (key === "games" && Array.isArray(data)) {
-      const oldGames = this.get("games");
-      const newGames = data.map((game) => {
-        const oldGame = oldGames.find((e) => e.url === game.url);
-        if (oldGame) return { ...game, state: oldGame.state };
-        return game;
-      });
-
-      localStorage.setItem("games", JSON.stringify(sortGames(newGames)));
+      localStorage.setItem("games", JSON.stringify(sortGames(data)));
       Browser.runtime.sendMessage(undefined, { key: "reload" });
       switchIcon(data);
     }
