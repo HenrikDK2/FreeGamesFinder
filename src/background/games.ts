@@ -72,7 +72,7 @@ const getGamerpower = async (drmFreeGames: boolean): Promise<IFreeGame[]> => {
         }
 
         const url = game.open_giveaway_url;
-        const title = game.title.replace(/ \((Steam|IndieGala|Epic\s*Games|itch\.io|itchio|GOG)\)| Giveaway/gi, "");
+        const title = game.title.replace(/ \((Steam|IndieGala|Epic\s*Games|itch\.io|itchio|GOG|PC)\)| Giveaway/gi, "");
 
         const state = db.find("game", { title, url })?.state || {
           hasClicked: false,
