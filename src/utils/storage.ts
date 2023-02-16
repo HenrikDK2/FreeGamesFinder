@@ -63,6 +63,11 @@ export const db: IDB = {
   },
 
   find(key, data) {
-    if (key === "game") return db.get("games").find((game) => game.title === data.title);
+    if (key === "game") {
+      return db.get("games").find((game) => {
+        if (game.title === data.title) return game;
+        if (game.url === data.url) return game;
+      });
+    }
   },
 };

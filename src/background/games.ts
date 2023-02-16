@@ -19,7 +19,7 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
 
       const games: IFreeGame[] = products.map((product) => {
         const url = "https://store.epicgames.com/p/" + product.offerMappings[0].pageSlug;
-        const state = db.find("game", { title: product.title })?.state || {
+        const state = db.find("game", { title: product.title, url })?.state || {
           hasClicked: false,
           hasSendNotification: false,
         };
@@ -71,8 +71,10 @@ const getGamerpower = async (drmFreeGames: boolean): Promise<IFreeGame[]> => {
           platform = descPlatformMatch[0];
         }
 
+        const url = game.open_giveaway_url;
         const title = game.title.replace(/ \((Steam|IndieGala|Epic\s*Games|itch\.io|itchio|GOG)\)| Giveaway/gi, "");
-        const state = db.find("game", { title })?.state || {
+
+        const state = db.find("game", { title, url })?.state || {
           hasClicked: false,
           hasSendNotification: false,
         };
@@ -81,7 +83,7 @@ const getGamerpower = async (drmFreeGames: boolean): Promise<IFreeGame[]> => {
           state: state,
           title,
           imageSrc: game.thumbnail,
-          url: game.open_giveaway_url,
+          url,
           platform: getPlatform(platform || game.platforms),
           productType: getProductType(game.type),
         };
@@ -107,7 +109,7 @@ const getGGDeals = async (): Promise<IFreeGame[]> => {
         const url = "https://gg.deals" + shopLink.getAttribute("href");
         const title = titleLink.textContent || "";
         const imageSrc = img.getAttribute("srcset")!.split(",")[1].replace(" 2x", "");
-        const state = db.find("game", { title })?.state || { hasClicked: false, hasSendNotification: false };
+        const state = db.find("game", { title, url })?.state || { hasClicked: false, hasSendNotification: false };
 
         return {
           url,
