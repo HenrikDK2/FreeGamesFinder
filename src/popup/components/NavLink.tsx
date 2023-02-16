@@ -17,6 +17,7 @@ const linkClassName = css`
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  font-size: 1rem;
   opacity: 0.7;
   color: var(--text-color);
   font-weight: 500;

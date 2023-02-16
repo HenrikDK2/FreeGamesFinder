@@ -7,8 +7,8 @@ export const Main = styled("main")`
   flex-direction: column;
   width: 350px;
   height: 500px;
-  padding: 1rem;
-  padding-bottom: 80px;
+  overflow: auto;
+  padding: 1rem 1rem 0 1rem;
   box-sizing: border-box;
 `;
 

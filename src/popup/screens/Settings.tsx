@@ -35,6 +35,7 @@ const Version = styled("p")`
   font-weight: 500;
   color: var(--text-color);
   user-select: none;
+  font-size: 1rem;
   opacity: 0.3;
   margin-bottom: 2rem;
 `;
@@ -42,6 +43,7 @@ const Version = styled("p")`
 const layoutClassName = css`
   gap: 1.5rem;
   overflow-y: scroll;
+  padding-bottom: 80px !important;
 `;
 
 const ReloadButton = styled("button")`
