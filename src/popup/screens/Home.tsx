@@ -77,8 +77,9 @@ const NoGamesContainer = styled("div")`
   text-align: center;
   user-select: none;
   font-size: 1.5rem;
-  margin-bottom: 90px;
   opacity: 0.2;
+  height: 100%;
+  margin-top: 30px;
   svg {
     margin-bottom: -2rem;
     font-size: 7rem;
