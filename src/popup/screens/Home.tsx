@@ -6,6 +6,7 @@ import { db } from "../../utils/db";
 import { Layout } from "../components/Layout";
 import { StoreIcon } from "../components/StoreIcon";
 import { IoMdSad } from "react-icons/io";
+import { truncateString } from "../utils";
 interface HomeScreenProps {
   children?: ComponentChildren;
   state: RootState;
@@ -100,11 +101,6 @@ const clickHandler = (e: MouseEvent, game: IFreeGame) => {
   window.open(game.url);
 };
 
-const formatTitle = (str: string): string => {
-  if (str.length >= 30) str = str.substring(0, 30) + "...";
-  return str;
-};
-
 export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
   let games = state.games;
 
@@ -123,7 +119,7 @@ export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
                 <StoreIcon platform={game.platform} />
               </ImageContainer>
               <Details>
-                <h2>{formatTitle(game.title)}</h2>
+                <h2>{truncateString(game.title, 38)}</h2>
                 <p>{game.productType}</p>
               </Details>
             </a>
