@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "zip": "(cd dist && zip -r build.zip *)",
-    "build": "rm -rf dist && webpack --mode=production --node-env=production",
+    "build": "rm -rf dist && webpack --mode=production --node-env=production && npm run zip",
     "build:dev": "rm -rf dist && webpack --mode=development",
-    "build:prod": "rm -rf dist && webpack --mode=production --node-env=production && npm run zip",
     "start:firefox": "web-ext run --devtools --browser-console --source-dir ./dist/",
     "start": "npm run build:dev && concurrently \"webpack --watch\" \"npm run start:firefox\""
   },
