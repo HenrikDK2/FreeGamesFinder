@@ -74,13 +74,15 @@ const ImageContainer = styled("div")`
 `;
 
 const NoGamesContainer = styled("div")`
-  margin: auto 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
   text-align: center;
   user-select: none;
   font-size: 1.5rem;
   opacity: 0.2;
-  height: 100%;
-  margin-top: 30px;
   svg {
     margin-bottom: -2rem;
     font-size: 7rem;
