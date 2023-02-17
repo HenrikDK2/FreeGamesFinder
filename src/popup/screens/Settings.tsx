@@ -101,7 +101,7 @@ export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ setting
       <Checkbox
         onClick={() => db.update("settings", { notifications: !settings.notifications })}
         isChecked={settings.notifications}
-        label="Allow browser notifications"
+        label="Show browser notifications"
       />
       <ReloadButton
         data-spin={buttonSpin}

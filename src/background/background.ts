@@ -3,6 +3,10 @@ import { checkForNewGames } from "./notification";
 import { db } from "./../utils/storage";
 import { minutesToMs } from "../utils";
 import { BackgroundMessages } from "../types/messages";
+import manifest from "../../public/manifest.json";
+
+// Set popup title
+Browser.browserAction.setTitle({ title: `${manifest.name} ${manifest.version}` });
 
 const { updateIntervalInMinutes, updateOnBrowserStart } = db.get("settings");
 let gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
