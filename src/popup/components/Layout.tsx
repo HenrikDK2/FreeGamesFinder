@@ -5,8 +5,8 @@ import { BottomMenu } from "./BottomMenu";
 export const Main = styled("main")`
   display: flex;
   flex-direction: column;
-  width: 350px;
-  height: 500px;
+  width: 400px;
+  height: 600px;
   overflow: auto;
   padding: 1rem 1rem 0 1rem;
   box-sizing: border-box;
