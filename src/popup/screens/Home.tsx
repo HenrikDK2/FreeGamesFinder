@@ -89,6 +89,7 @@ const NoGamesContainer = styled("div")`
 const Image = styled("img")`
   border-radius: 6px 0 0 6px;
   object-fit: cover;
+  font-size: 0;
   height: 100%;
   width: 100%;
 `;
@@ -118,7 +119,7 @@ export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
           <GameItem key={game.url} settings={state.settings} game={game}>
             <a title={game.title} href={game.url} alt="" onClick={(e) => clickHandler(e, game)}>
               <ImageContainer>
-                <Image src={game.imageSrc} alt={"Image of " + game.title} />
+                <Image loading="lazy" src={game.imageSrc} alt={"Image of " + game.title} />
                 <StoreIcon platform={game.platform} />
               </ImageContainer>
               <Details>
