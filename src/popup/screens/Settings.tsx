@@ -4,7 +4,7 @@ import { Select } from "../components/Select";
 import { Checkbox } from "../components/Checkbox";
 import { css, styled } from "goober";
 import { ISettings } from "../../types/settings";
-import { db } from "../../utils/storage";
+import { db } from "../../utils/db";
 import manifest from "../../../public/manifest.json";
 import Browser from "webextension-polyfill";
 import { useState } from "preact/hooks";

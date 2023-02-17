@@ -2,7 +2,7 @@ import { styled } from "goober";
 import { ComponentChildren, FunctionComponent } from "preact";
 import { RootState } from "../../types";
 import { IFreeGame } from "../../types/freegames";
-import { db } from "../../utils/storage";
+import { db } from "../../utils/db";
 import { Layout } from "../components/Layout";
 import { StoreIcon } from "../components/StoreIcon";
 import { IoMdSad } from "react-icons/io";

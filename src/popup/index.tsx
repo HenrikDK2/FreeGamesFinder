@@ -7,7 +7,7 @@ import { HomeScreen } from "./screens/Home";
 import { BrowserMessages } from "../types/messages";
 import { setup } from "goober";
 import { SettingsScreen } from "./screens/Settings";
-import { db } from "../utils/storage";
+import { db } from "../utils/db";
 import { RootState } from "../types";
 setup(h);
 

@@ -1,6 +1,6 @@
 import Browser from "webextension-polyfill";
 import { checkForNewGames } from "./notification";
-import { db } from "./../utils/storage";
+import { db } from "../utils/db";
 import { minutesToMs } from "../utils";
 import { BackgroundMessages } from "../types/messages";
 import manifest from "../../public/manifest.json";

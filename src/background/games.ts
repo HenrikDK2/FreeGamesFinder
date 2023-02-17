@@ -1,6 +1,6 @@
 import { getProductType, getDOMFromUrl, getPlatform } from "../utils";
 import { IFreeGame } from "../types/freegames";
-import { db } from "../utils/storage";
+import { db } from "../utils/db";
 import { EpicGamesRequestData } from "../types/epicgames";
 import axios from "axios";
 import { GamerPowerRequestData } from "../types/gamerpower";
