@@ -68,7 +68,8 @@ const SelectItemButton = styled("button")`
   outline: none;
   transition: all 50ms ease;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background-color: rgba(255, 255, 255, 0.05);
     outline: none;
   }
