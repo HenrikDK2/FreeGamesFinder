@@ -6,7 +6,7 @@ Introducing the ultimate solution for keeping track of limited-time free games. 
 
 ### Build for production
 
-`npm run builid:prod`
+`npm run builid`
 
 ### Start development
 
