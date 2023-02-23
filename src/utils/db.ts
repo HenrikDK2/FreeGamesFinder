@@ -56,9 +56,7 @@ export const db: IDB = {
 
     if (key === "game" && "title" in data) {
       const newGames = db.get("games").map((game) => (game.title === data.title ? data : game));
-      localStorage.setItem("games", JSON.stringify(sortGames(newGames)));
-      Browser.runtime.sendMessage(undefined, { key: "reload" });
-      switchIcon(newGames);
+      db.update("games", newGames);
     }
   },
 

@@ -4,6 +4,7 @@ import { getEpicGames } from "./providers/epic";
 import { getGamerpower } from "./providers/gamepower";
 import { getGGDeals } from "./providers/ggdeals";
 
+// First games in array takes priority, so first-party sources should be the first entries in the array
 const uniqueGames = (games: IFreeGame[]): IFreeGame[] => {
   const formatTitle = (title: string) => title.toLowerCase().replace(/ /g, "");
 
