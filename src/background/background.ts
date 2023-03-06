@@ -26,8 +26,8 @@ const browserUpdate = async () => {
 
 if (updateOnBrowserStart) checkForNewGames();
 
-Browser.notifications.onClicked.addListener((title) => {
-  const game = db.find("game", { title });
+Browser.notifications.onClicked.addListener((url) => {
+  const game = db.find("game", { url });
 
   if (game) {
     db.update("game", { ...game, state: { ...game.state, hasClicked: true } });

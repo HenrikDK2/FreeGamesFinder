@@ -4,7 +4,7 @@ import { getGamesFromSources } from "./games";
 import { db } from "../utils/db";
 
 export const createNotification = (game: IFreeGame) => {
-  Browser.notifications.create(game.title, {
+  Browser.notifications.create(game.url, {
     message: `New free ${game.productType.toLowerCase()} is available!`,
     type: "basic",
     isClickable: true,

@@ -55,17 +55,16 @@ export const db: IDB = {
     }
 
     if (key === "game" && "title" in data) {
-      const newGames = db.get("games").map((game) => (game.title === data.title ? data : game));
+      const newGames = db
+        .get("games")
+        .map((game) => (game.title === data.title && game.url === data.url ? data : game));
       db.update("games", newGames);
     }
   },
 
   find(key, data) {
     if (key === "game") {
-      return db.get("games").find((game) => {
-        if (game.title === data.title) return game;
-        if (game.url === data.url) return game;
-      });
+      return db.get("games").find((game) => game.url === data.url);
     }
   },
 };

@@ -18,7 +18,7 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
 
       const games: IFreeGame[] = products.map((product) => {
         const url = "https://store.epicgames.com/p/" + product.offerMappings[0].pageSlug;
-        const state = db.find("game", { title: product.title, url })?.state || {
+        const state = db.find("game", { url })?.state || {
           hasClicked: false,
           hasSendNotification: false,
         };

@@ -15,12 +15,17 @@ export const getGGDeals = async (): Promise<IFreeGame[]> => {
         const url = "https://gg.deals" + shopLink.getAttribute("href");
         const title = titleLink.textContent || "";
         const imageSrc = img.getAttribute("srcset")!.split(",")[1].replace(" 2x", "");
-        const state = db.find("game", { title, url })?.state || { hasClicked: false, hasSendNotification: false };
+        const platform = getPlatform(el.getAttribute("data-shop-name")!);
+
+        const state = db.find("game", { url })?.state || {
+          hasClicked: false,
+          hasSendNotification: false,
+        };
 
         return {
           url,
           productType: getProductType(),
-          platform: getPlatform(el.getAttribute("data-shop-name")!),
+          platform,
           state,
           title,
           imageSrc,
