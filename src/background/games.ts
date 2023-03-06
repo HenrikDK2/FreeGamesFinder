@@ -11,7 +11,7 @@ const uniqueGames = (games: IFreeGame[]): IFreeGame[] => {
   return games.filter(
     (a, index, self) =>
       index ===
-      self.findIndex((b) => formatStr(a.title) === formatStr(b.title) && a.url === b.url && a.platform === b.platform)
+      self.findIndex((b) => (formatStr(a.title) === formatStr(b.title) && a.platform === b.platform) || a.url === b.url)
   );
 };
 
@@ -24,7 +24,7 @@ export const getGamesFromSources = async (): Promise<IFreeGame[]> => {
     ...(await getGamerpower(drmFreeGames)),
   ]);
 
-  db.update("games", games || []);
+  if (games.length > 0) db.update("games", games);
 
   return games;
 };
