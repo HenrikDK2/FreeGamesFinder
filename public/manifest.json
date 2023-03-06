@@ -1,6 +1,6 @@
 {
   "name": "Free Games Finder",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "manifest_version": 2,
   "description": "Introducing the ultimate solution for keeping track of limited-time free game. Free Games Finder tracks and alerts you so you never miss out on great games.",
   "icons": {
@@ -10,11 +10,6 @@
   },
   "background": {
     "scripts": ["background.js"]
-  },
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "addon@example.com"
-    }
   },
   "browser_action": {
     "default_icon": "assets/logo-64.png",
