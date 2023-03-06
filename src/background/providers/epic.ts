@@ -8,7 +8,7 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
   try {
     const { status, data } = await axios<EpicGamesRequestData>({
       url: "https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions",
-      timeout: 3000,
+      timeout: 10000,
     });
 
     if (status === 200) {
