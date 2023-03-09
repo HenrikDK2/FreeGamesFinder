@@ -2,12 +2,16 @@
 
 Introducing the ultimate solution for keeping track of limited-time free-to-keep games. Free Games Finder tracks and alerts you, so you never miss out on great games.
 
-## Scripts
+## Installation guide for developer
 
-### Build for production
+### Install required packages
 
-`npm run build`
+`npm install`
 
 ### Start development
 
 `npm run start`
+
+### Build for production
+
+`npm run build`
