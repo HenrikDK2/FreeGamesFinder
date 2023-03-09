@@ -27,8 +27,8 @@ export const checkForNewGames = async () => {
     for (let i = 0; i < games.length; i++) {
       // Check if game has not send a notification before
       if (!games[i].state.hasSendNotification) {
-        // Don't send a notification if showshowDRMFreeGames is true, and the game is not a DRMFreeGame
-        if (showDRMFreeGames === true && !isDrmFreeGame(games[i])) continue;
+        // Don't send a notification if showDRMFreeGames is true, and the game is not a DRMFreeGame
+        if (!showDRMFreeGames && isDrmFreeGame(games[i])) continue;
         // Send notification
         createNotification(games[i]);
       }
