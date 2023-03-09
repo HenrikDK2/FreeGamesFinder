@@ -12,12 +12,15 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
     });
 
     if (status === 200) {
-      const products = data.data.Catalog.searchStore.elements.filter(
-        (p) => p.offerMappings.length > 0 && p.price.totalPrice.discountPrice === 0
-      );
+      const products = data.data.Catalog.searchStore.elements.filter((p) => {
+        const effectiveDate = new Date(p.effectiveDate);
+        const isActive = Date.now() - effectiveDate.getTime() < 0 ? false : true;
+
+        if (p.price.totalPrice.discountPrice === 0 && isActive) return true;
+      });
 
       const games: IFreeGame[] = products.map((product) => {
-        const url = "https://store.epicgames.com/p/" + product.offerMappings[0].pageSlug;
+        const url = "https://store.epicgames.com/p/" + product.urlSlug;
         const state = db.find("game", { url })?.state || {
           hasClicked: false,
           hasSendNotification: false,
@@ -32,6 +35,7 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
           productType: getProductType(product.offerType),
         };
       });
+
       return games;
     }
   } catch (error) {
