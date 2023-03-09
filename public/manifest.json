@@ -11,11 +11,6 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "freegamesfinder@example.com"
-    }
-  },
   "browser_action": {
     "default_icon": "assets/logo-64.png",
     "default_title": "Free Games Finder",
