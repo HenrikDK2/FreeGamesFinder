@@ -4,9 +4,11 @@ Introducing the ultimate solution for keeping track of limited-time free-to-keep
 
 ## Installation guide for developer
 
-### Install required packages
+### Prerequisites build dependencies
 
-`npm install`
+Install node, and npm. Should work with the latest version.
+
+Install required dependencies: `npm install`
 
 ### Start development
 
