@@ -4,13 +4,13 @@ import { db } from "../../utils/db";
 import axios from "axios";
 import { GamerPowerRequestData } from "../../types/gamerpower";
 
-export const getGamerpower = async (drmFreeGames: boolean): Promise<IFreeGame[]> => {
+export const getGamerpower = async (): Promise<IFreeGame[]> => {
   try {
     const { status, data } = await axios<GamerPowerRequestData>({
       url: "https://www.gamerpower.com/api/filter",
       timeout: 10000,
       params: {
-        platform: drmFreeGames ? "epic-games-store.steam.gog.itchio.drm-free" : "epic-games-store.steam.gog",
+        platform: "epic-games-store.steam.gog.itchio.drm-free",
         type: "game",
         "sort-by": "date",
       },

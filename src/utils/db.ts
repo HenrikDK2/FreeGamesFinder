@@ -37,15 +37,7 @@ export const db: IDB = {
     if (key === "settings") {
       const oldSettings = db.get("settings");
       localStorage.setItem("settings", JSON.stringify({ ...oldSettings, ...data }));
-
-      if ("drmFreeGames" in data) {
-        Browser.runtime.sendMessage(undefined, {
-          key: "settings",
-          update: oldSettings.drmFreeGames !== data?.drmFreeGames,
-        });
-      } else {
-        Browser.runtime.sendMessage(undefined, { key: "settings" });
-      }
+      Browser.runtime.sendMessage(undefined, { key: "settings" });
     }
 
     if (key === "games" && Array.isArray(data)) {

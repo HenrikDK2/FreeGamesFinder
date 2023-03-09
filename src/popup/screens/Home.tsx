@@ -104,16 +104,10 @@ const clickHandler = (e: MouseEvent, game: IFreeGame) => {
 };
 
 export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
-  let games = state.games;
-
-  if (state.settings.hideClickedGames === true) {
-    games = games?.filter((e) => !e.state.hasClicked);
-  }
-
   return (
     <Layout>
       <GamesList>
-        {games?.map((game) => (
+        {state.games?.map((game) => (
           <GameItem key={game.url} settings={state.settings} game={game}>
             <a title={game.title} href={game.url} alt="" onClick={(e) => clickHandler(e, game)}>
               <ImageContainer>
@@ -129,7 +123,7 @@ export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
         ))}
       </GamesList>
 
-      {games?.length === 0 && (
+      {state.games?.length === 0 && (
         <NoGamesContainer>
           <IoMdSad />
           <h3>No free games</h3>
