@@ -1,7 +1,7 @@
 import Browser from "webextension-polyfill";
 import { sortGames, switchIcon } from ".";
 import { ISettings } from "../types/settings";
-import { IDB } from "../types/storage";
+import { IDB } from "../types/db";
 
 const defaultSettings: ISettings = {
   hideClickedGames: false,
