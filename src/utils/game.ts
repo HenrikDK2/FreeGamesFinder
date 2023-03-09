@@ -1,4 +1,5 @@
 import { Platform, IFreeGame } from "../types/freegames";
+import { ISettings } from "../types/settings";
 
 export const getProductType = (type?: string) => {
   if (type) type = type.toLowerCase().replace(/ /g, "");
@@ -27,6 +28,22 @@ export const getPlatform = (platform: string): Platform | undefined => {
 
 export const sortGames = (games: IFreeGame[]): IFreeGame[] => {
   return games.sort((a, b) => Number(a.state.hasClicked) - Number(b.state.hasClicked));
+};
+
+export const filterGamesList = (games: IFreeGame[], settings: ISettings): IFreeGame[] => {
+  return games.filter((game) => {
+    if (game.state.hasClicked && settings.hideClickedGames === true) {
+      return false;
+    }
+
+    if (settings.showDRMFreeGames === false) {
+      if (game.platform === "GX.games") return false;
+      if (game.platform === "IndieGala") return false;
+      if (game.platform === "itch.io") return false;
+    }
+
+    return true;
+  });
 };
 
 export const isDrmFreeGame = (game: IFreeGame): boolean => {
