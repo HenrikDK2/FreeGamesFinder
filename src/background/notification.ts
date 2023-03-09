@@ -2,7 +2,7 @@ import Browser from "webextension-polyfill";
 import { IFreeGame } from "../types/freegames";
 import { getGamesFromSources } from "./games";
 import { db } from "../utils/db";
-import { isDrmFreeGame } from "../utils";
+import { isDrmFreeGame } from "../utils/game";
 
 export const createNotification = (game: IFreeGame) => {
   Browser.notifications.create(game.url, {

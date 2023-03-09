@@ -1,4 +1,5 @@
-import { getProductType, getDOMFromUrl, getPlatform } from "../../utils";
+import { getProductType, getPlatform } from "../../utils/game";
+import { getDOMFromUrl } from "../../utils";
 import { IFreeGame } from "../../types/freegames";
 import { db } from "../../utils/db";
 

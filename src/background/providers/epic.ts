@@ -1,4 +1,4 @@
-import { getProductType, getPlatform } from "../../utils";
+import { getProductType, getPlatform } from "../../utils/game";
 import { IFreeGame } from "../../types/freegames";
 import { db } from "../../utils/db";
 import { EpicGamesRequestData } from "../../types/epicgames";
