@@ -103,32 +103,30 @@ const clickHandler = (e: MouseEvent, game: IFreeGame) => {
   window.open(game.url);
 };
 
-export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => {
-  return (
-    <Layout>
-      <GamesList>
-        {state.games?.map((game) => (
-          <GameItem key={game.url} settings={state.settings} game={game}>
-            <a title={game.title} href={game.url} alt="" onClick={(e) => clickHandler(e, game)}>
-              <ImageContainer>
-                <Image loading="lazy" src={game.imageSrc} alt={"Image of " + game.title} />
-                <StoreIcon platform={game.platform} />
-              </ImageContainer>
-              <Details>
-                <h2>{truncateString(game.title, 38)}</h2>
-                <p>{game.productType}</p>
-              </Details>
-            </a>
-          </GameItem>
-        ))}
-      </GamesList>
+export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => (
+  <Layout>
+    <GamesList>
+      {state.games?.map((game) => (
+        <GameItem key={game.url} settings={state.settings} game={game}>
+          <a title={game.title} href={game.url} alt="" onClick={(e) => clickHandler(e, game)}>
+            <ImageContainer>
+              <Image loading="lazy" src={game.imageSrc} alt={"Image of " + game.title} />
+              <StoreIcon platform={game.platform} />
+            </ImageContainer>
+            <Details>
+              <h2>{truncateString(game.title, 38)}</h2>
+              <p>{game.productType}</p>
+            </Details>
+          </a>
+        </GameItem>
+      ))}
+    </GamesList>
 
-      {state.games?.length === 0 && (
-        <NoGamesContainer>
-          <IoMdSad />
-          <h3>No free games</h3>
-        </NoGamesContainer>
-      )}
-    </Layout>
-  );
-};
+    {state.games?.length === 0 && (
+      <NoGamesContainer>
+        <IoMdSad />
+        <h3>No free games</h3>
+      </NoGamesContainer>
+    )}
+  </Layout>
+);
