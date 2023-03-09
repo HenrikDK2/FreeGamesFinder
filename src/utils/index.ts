@@ -40,6 +40,14 @@ export const switchIcon = (games: IFreeGame[]) => {
   });
 };
 
+export const isDrmFreeGame = (game: IFreeGame): boolean => {
+  if (game.platform === "GX.games") return true;
+  if (game.platform === "IndieGala") return true;
+  if (game.platform === "itch.io") return true;
+
+  return false;
+};
+
 export const minutesToMs = (number: number) => 1000 * number * 60;
 
 export const getDOMFromUrl = async (url: string): Promise<HTMLElement | undefined> => {
