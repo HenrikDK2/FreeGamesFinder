@@ -1,13 +1,15 @@
 import axios from "axios";
 import DOMPurify from "dompurify";
 import Browser from "webextension-polyfill";
-import { IFreeGame, Platform } from "../types/freegames";
+import { IFreeGame } from "../types/freegames";
+import { db } from "./db";
+import { filterGamesList } from "./game";
 
 export const switchIcon = (games: IFreeGame[]) => {
   const icons = ["assets/logo-32.png", "assets/logo-32-hidden.png"];
 
   Browser.browserAction.setIcon({
-    path: games.some((game) => !game.state.hasClicked) ? icons[0] : icons[1],
+    path: filterGamesList(games, db.get("settings")).some((game) => !game.state.hasClicked) ? icons[0] : icons[1],
   });
 };
 
