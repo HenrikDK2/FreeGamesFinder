@@ -8,7 +8,7 @@ const defaultSettings: ISettings = {
   updateIntervalInMinutes: 60,
   updateOnBrowserStart: true,
   notifications: true,
-  drmFreeGames: false,
+  showDRMFreeGames: false,
 };
 
 export const db: IDB = {

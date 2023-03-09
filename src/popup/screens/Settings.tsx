@@ -94,8 +94,8 @@ export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ setting
         label="Update games list on browser start"
       />
       <Checkbox
-        onClick={() => db.update("settings", { drmFreeGames: !settings.drmFreeGames })}
-        isChecked={settings.drmFreeGames}
+        onClick={() => db.update("settings", { showDRMFreeGames: !settings.showDRMFreeGames })}
+        isChecked={settings.showDRMFreeGames}
         label="Include DRM Free games"
       />
       <Checkbox

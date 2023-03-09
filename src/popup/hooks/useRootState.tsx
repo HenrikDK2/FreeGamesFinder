@@ -25,7 +25,7 @@ export const useRootState = (): RootState => {
         return false;
       }
 
-      if (state.settings.drmFreeGames === false) {
+      if (state.settings.showDRMFreeGames === false) {
         if (game.platform === "GX.games") return false;
         if (game.platform === "IndieGala") return false;
         if (game.platform === "itch.io") return false;

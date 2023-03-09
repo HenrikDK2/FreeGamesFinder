@@ -3,5 +3,5 @@ export interface ISettings {
   updateIntervalInMinutes: 30 | 60 | 180 | 360 | 720;
   updateOnBrowserStart: boolean;
   notifications: boolean;
-  drmFreeGames: boolean;
+  showDRMFreeGames: boolean;
 }

@@ -21,14 +21,14 @@ export const createNotification = (game: IFreeGame) => {
 
 export const checkForNewGames = async () => {
   const games = await getGamesFromSources();
-  const { notifications, drmFreeGames } = db.get("settings");
+  const { notifications, showDRMFreeGames } = db.get("settings");
 
   if (games && notifications) {
     for (let i = 0; i < games.length; i++) {
       // Check if game has not send a notification before
       if (!games[i].state.hasSendNotification) {
-        // Don't send a notification if showDrmFreeGames is true, and the game is not a DRMFreeGame
-        if (drmFreeGames === true && !isDrmFreeGame(games[i])) continue;
+        // Don't send a notification if showshowDRMFreeGames is true, and the game is not a DRMFreeGame
+        if (showDRMFreeGames === true && !isDrmFreeGame(games[i])) continue;
         // Send notification
         createNotification(games[i]);
       }
