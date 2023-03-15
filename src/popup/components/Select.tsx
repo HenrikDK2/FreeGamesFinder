@@ -89,7 +89,6 @@ const containerClassName = css`
 `;
 
 const Label = styled("label")`
-  padding: 0 6px;
   font-weight: 500;
   margin-bottom: 4px;
   display: block;
