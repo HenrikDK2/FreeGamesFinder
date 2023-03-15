@@ -7,7 +7,7 @@ export enum EnumPlatform {
   "Epic Games Store",
   "Steam",
   "GoG",
-  "itch.io",
+  "Itch.io",
   "IndieGala",
   "GX.games",
 }

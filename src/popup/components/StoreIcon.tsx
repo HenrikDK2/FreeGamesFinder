@@ -24,7 +24,7 @@ export const StoreIcon: FunctionComponent<StoreIconProps> = ({ platform }) => {
   if (platform === "GoG") return <GoGLogo className={IconClassName} />;
   if (platform === "Epic Games Store") return <EpicLogo className={IconClassName} />;
   if (platform === "Steam") return <SteamLogo className={IconClassName} />;
-  if (platform === "itch.io") return <img className={IconClassName} src={itchioSrc} />;
+  if (platform === "Itch.io") return <img className={IconClassName} src={itchioSrc} />;
   if (platform === "IndieGala") return <img className={IconClassName} src={indiegalaSrc} />;
 
   return null;
