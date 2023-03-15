@@ -17,6 +17,7 @@ const Button = styled("button")`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  text-transform: capitalize;
   width: 100%;
   background-color: var(--background-level-3);
   color: var(--text-color);
@@ -38,6 +39,10 @@ const Button = styled("button")`
 const contentStyle = css`
   overflow: hidden;
   transition: 0.2s all ease;
+
+  &[aria-hidden="true"] {
+    margin: 0;
+  }
 `;
 
 export const Accordion: FunctionComponent<AccordionProps> = ({
@@ -59,7 +64,20 @@ export const Accordion: FunctionComponent<AccordionProps> = ({
         target.style.maxHeight = target.scrollHeight + "px";
       } else {
         target.style.maxHeight = 0 + "px";
+        target.style.overflow = "hidden";
       }
+
+      const transitionHandler = (e: TransitionEvent) => {
+        if (e.propertyName === "max-height" && isOpen) {
+          target.style.overflow = "initial";
+        }
+      };
+
+      target.addEventListener("transitionend", transitionHandler);
+
+      return () => {
+        target.removeEventListener("transitionend", transitionHandler);
+      };
     }
   }, [isOpen, contentRef]);
 
@@ -68,7 +86,7 @@ export const Accordion: FunctionComponent<AccordionProps> = ({
       <Button aria-expanded={isOpen} aria-controls={id} onClick={() => setIsOpen(!isOpen)}>
         {text} <IoCaretDown />
       </Button>
-      <div id={id} className={clsx(contentStyle, contentClassName)} aria-hidden={isOpen} ref={contentRef}>
+      <div id={id} className={clsx(contentStyle, contentClassName)} aria-hidden={!isOpen} ref={contentRef}>
         {children}
       </div>
     </div>
