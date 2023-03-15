@@ -53,6 +53,7 @@
     "preact": "^10.11.3",
     "preact-router": "^4.1.0",
     "react-icons": "^4.7.1",
+    "uuid": "^9.0.0",
     "webextension-polyfill": "^0.10.0"
   }
 }
