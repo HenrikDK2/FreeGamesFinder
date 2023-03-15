@@ -20,10 +20,10 @@ const Button = styled("button")`
   width: 100%;
   background-color: var(--background-level-3);
   color: var(--text-color);
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  padding: 1rem;
   box-sizing: border-box;
-  font-weight: bold;
+  font-weight: 500;
   cursor: pointer;
   border: 0;
   border-bottom: 1px solid var(--background-level-2);
