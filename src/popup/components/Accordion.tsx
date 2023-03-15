@@ -38,7 +38,9 @@ const Button = styled("button")`
 
 const contentStyle = css`
   overflow: hidden;
+  max-height: 0;
   transition: 0.2s all ease;
+  opacity: 1;
 
   &[aria-hidden="true"] {
     margin: 0;
@@ -62,9 +64,11 @@ export const Accordion: FunctionComponent<AccordionProps> = ({
 
       if (isOpen) {
         target.style.maxHeight = target.scrollHeight + "px";
+        target.style.opacity = "1";
       } else {
         target.style.maxHeight = 0 + "px";
         target.style.overflow = "hidden";
+        target.style.opacity = "0";
       }
 
       const transitionHandler = (e: TransitionEvent) => {
