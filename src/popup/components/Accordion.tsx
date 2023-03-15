@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { css, styled } from "goober";
 import { ComponentChildren, FunctionComponent } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
@@ -6,6 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 
 interface AccordionProps {
   children?: ComponentChildren;
+  containerClassName?: string;
+  contentClassName?: string;
   isDefaultOpen?: boolean;
   text: string;
 }
@@ -37,7 +40,13 @@ const contentStyle = css`
   transition: 0.2s all ease;
 `;
 
-export const Accordion: FunctionComponent<AccordionProps> = ({ children, text, isDefaultOpen = false }) => {
+export const Accordion: FunctionComponent<AccordionProps> = ({
+  children,
+  containerClassName,
+  contentClassName,
+  text,
+  isDefaultOpen = false,
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(isDefaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
   const id = uuidv4();
@@ -55,11 +64,11 @@ export const Accordion: FunctionComponent<AccordionProps> = ({ children, text, i
   }, [isOpen, contentRef]);
 
   return (
-    <div>
+    <div className={containerClassName}>
       <Button aria-expanded={isOpen} aria-controls={id} onClick={() => setIsOpen(!isOpen)}>
         {text} <IoCaretDown />
       </Button>
-      <div id={id} className={contentStyle} aria-hidden={isOpen} ref={contentRef}>
+      <div id={id} className={clsx(contentStyle, contentClassName)} aria-hidden={isOpen} ref={contentRef}>
         {children}
       </div>
     </div>
