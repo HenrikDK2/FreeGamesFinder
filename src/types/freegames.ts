@@ -4,16 +4,16 @@ export enum EnumProductType {
 }
 
 export enum EnumPlatform {
-  "EpicGamesStore",
+  "Epic Games Store",
   "Steam",
   "GoG",
   "itch.io",
   "IndieGala",
   "GX.games",
 }
+export type Platform = keyof typeof EnumPlatform;
 
 export type ProductType = keyof typeof EnumProductType;
-export type Platform = keyof typeof EnumPlatform;
 export interface GameState {
   hasSendNotification: boolean;
   hasClicked: boolean;

@@ -9,7 +9,7 @@ const defaultSettings: ISettings = {
   updateIntervalInMinutes: 60,
   updateOnBrowserStart: true,
   notifications: true,
-  showDRMFreeGames: false,
+  showPlatforms: ["Steam", "Epic Games Store", "GoG"],
 };
 
 export const db: IDB = {

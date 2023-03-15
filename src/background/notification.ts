@@ -2,7 +2,6 @@ import Browser from "webextension-polyfill";
 import { IFreeGame } from "../types/freegames";
 import { getGamesFromSources } from "./games";
 import { db } from "../utils/db";
-import { isDrmFreeGame } from "../utils/game";
 
 export const createNotification = (game: IFreeGame) => {
   Browser.notifications.create(game.url, {
@@ -21,14 +20,16 @@ export const createNotification = (game: IFreeGame) => {
 
 export const checkForNewGames = async () => {
   const games = await getGamesFromSources();
-  const { notifications, showDRMFreeGames } = db.get("settings");
+  const { notifications, showPlatforms } = db.get("settings");
 
   if (games && notifications) {
     for (let i = 0; i < games.length; i++) {
+      const game = games[i];
+
       // Check if game has not send a notification before
-      if (!games[i].state.hasSendNotification) {
-        // Don't send a notification if showDRMFreeGames is true, and the game is not a DRMFreeGame
-        if (!showDRMFreeGames && isDrmFreeGame(games[i])) continue;
+      if (!game.state.hasSendNotification) {
+        if (!game.platform || !showPlatforms.includes(game.platform)) continue;
+
         // Send notification
         createNotification(games[i]);
       }

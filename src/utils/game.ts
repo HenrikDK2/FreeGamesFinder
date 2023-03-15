@@ -11,7 +11,7 @@ export const getProductType = (type?: string) => {
 export const getPlatform = (platform: string): Platform | undefined => {
   platform = platform.toLowerCase().replace(/ /g, "");
 
-  if (platform === "epicgamesstore") return "EpicGamesStore";
+  if (platform === "epicgamesstore") return "Epic Games Store";
 
   if (platform === "gog.com") return "GoG";
   if (platform === "gog") return "GoG";
@@ -36,20 +36,10 @@ export const filterGamesList = (games: IFreeGame[], settings: ISettings): IFreeG
       return false;
     }
 
-    if (settings.showDRMFreeGames === false) {
-      if (game.platform === "GX.games") return false;
-      if (game.platform === "IndieGala") return false;
-      if (game.platform === "itch.io") return false;
+    if (game.platform && settings.showPlatforms.includes(game.platform)) {
+      return true;
     }
 
-    return true;
+    return false;
   });
-};
-
-export const isDrmFreeGame = (game: IFreeGame): boolean => {
-  if (game.platform === "GX.games") return true;
-  if (game.platform === "IndieGala") return true;
-  if (game.platform === "itch.io") return true;
-
-  return false;
 };

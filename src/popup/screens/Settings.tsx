@@ -2,13 +2,11 @@ import { ComponentChildren, FunctionComponent } from "preact";
 import { Layout } from "../components/Layout";
 import { Select } from "../components/Select";
 import { Checkbox } from "../components/Checkbox";
-import { css, styled } from "goober";
+import { css } from "goober";
 import { ISettings } from "../../types/settings";
 import { db } from "../../utils/db";
-import manifest from "../../../public/manifest.json";
-import Browser from "webextension-polyfill";
-import { useState } from "preact/hooks";
-import { IoReloadCircle } from "react-icons/io5";
+import { Accordion } from "../components/Accordion";
+import { EnumPlatform, Platform } from "../../types/freegames";
 
 interface SettingsScreenProps {
   children?: ComponentChildren;
@@ -30,89 +28,91 @@ const onChangeHandler = (e: string) => {
   }
 };
 
-const Version = styled("p")`
-  text-align: center;
-  font-weight: 500;
-  color: var(--text-color);
-  user-select: none;
-  font-size: 1rem;
-  opacity: 0.3;
-  margin-bottom: 2rem;
-`;
-
 const layoutClassName = css`
-  gap: 1.5rem;
-  overflow-y: scroll;
-  padding-bottom: 80px !important;
+  padding: 0 0 80px 0 !important;
 `;
 
-const ReloadButton = styled("button")`
-  appearance: none;
-  cursor: pointer;
-  display: block;
-  background-color: transparent;
-  font-size: 3rem;
-  border: none;
-  color: var(--text-color);
-  opacity: 0.5;
-  text-align: center;
-  width: fit-content;
-  margin: 1rem auto 0;
-  transition: all 0.2s ease;
-  &:hover {
-    opacity: 1;
-  }
-
-  &[data-spin="true"] {
-    opacity: 1;
-    svg {
-      animation: spin 1s ease infinite;
-    }
-  }
+const accordionContentClassName = css`
+  display: flex;
+  margin: 1rem 0;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  flex-direction: column;
+  gap: 1.5rem;
 `;
 
 export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ settings }) => {
-  const [buttonSpin, setButtonSpin] = useState(false);
+  const platformHandler = (platform: Platform) => {
+    if (settings.showPlatforms.includes(platform)) {
+      const index = settings.showPlatforms.indexOf(platform);
+      const showPlatforms = settings.showPlatforms.slice();
+      showPlatforms.splice(index, 1);
+
+      db.update("settings", { showPlatforms });
+    } else {
+      db.update("settings", { showPlatforms: [...settings.showPlatforms, platform] });
+    }
+
+    // Don't show notifications for games
+    const { showPlatforms } = db.get("settings");
+
+    const gamesWithUpdatedState = db.get("games").map((game) => {
+      if (game.platform && showPlatforms.includes(game.platform)) {
+        game.state.hasSendNotification = true;
+      }
+
+      return game;
+    });
+
+    db.update("games", gamesWithUpdatedState);
+  };
 
   return (
     <Layout className={layoutClassName}>
-      <Select
-        id="updateIntervalInMinutes"
-        onChange={onChangeHandler}
-        label="Check for new games every"
-        items={Object.values(refItems)}
-        value={refItems[`${settings.updateIntervalInMinutes}`]}
-      />
-      <Checkbox
-        onClick={() => db.update("settings", { hideClickedGames: !settings.hideClickedGames })}
-        isChecked={settings.hideClickedGames}
-        label="Hide claimed games from list"
-      />
-      <Checkbox
-        onClick={() => db.update("settings", { updateOnBrowserStart: !settings.updateOnBrowserStart })}
-        isChecked={settings.updateOnBrowserStart}
-        label="Update games list on browser start"
-      />
-      <Checkbox
-        onClick={() => db.update("settings", { showDRMFreeGames: !settings.showDRMFreeGames })}
-        isChecked={settings.showDRMFreeGames}
-        label="Show DRM Free games"
-      />
-      <Checkbox
-        onClick={() => db.update("settings", { notifications: !settings.notifications })}
-        isChecked={settings.notifications}
-        label="Show browser notifications"
-      />
-      <ReloadButton
-        data-spin={buttonSpin}
-        onClick={() => {
-          setButtonSpin(true);
-          Browser.runtime.sendMessage(undefined, { key: "update" }).finally(() => setButtonSpin(false));
-        }}
-      >
-        <IoReloadCircle />
-      </ReloadButton>
-      <Version>Version {manifest.version}</Version>
+      <Accordion text="general" contentClassName={accordionContentClassName}>
+        <Checkbox
+          onClick={() => db.update("settings", { hideClickedGames: !settings.hideClickedGames })}
+          isChecked={settings.hideClickedGames}
+          label="Hide claimed games from list"
+        />
+
+        <Checkbox
+          onClick={() => db.update("settings", { notifications: !settings.notifications })}
+          isChecked={settings.notifications}
+          label="Show browser notifications"
+        />
+      </Accordion>
+
+      <Accordion text="Updates" contentClassName={accordionContentClassName}>
+        <Select
+          id="updateIntervalInMinutes"
+          onChange={onChangeHandler}
+          label="Check for new games every"
+          items={Object.values(refItems)}
+          value={refItems[`${settings.updateIntervalInMinutes}`]}
+        />
+        <Checkbox
+          onClick={() => db.update("settings", { updateOnBrowserStart: !settings.updateOnBrowserStart })}
+          isChecked={settings.updateOnBrowserStart}
+          label="Update on browser start"
+        />
+      </Accordion>
+
+      <Accordion text="Platforms" contentClassName={accordionContentClassName}>
+        {Object.values(EnumPlatform).map((str) => {
+          const platform = str as Platform;
+
+          if (typeof platform !== "number") {
+            return (
+              <Checkbox
+                onClick={() => platformHandler(platform)}
+                isChecked={settings.showPlatforms.includes(platform)}
+                label={platform}
+              />
+            );
+          }
+        })}
+      </Accordion>
     </Layout>
   );
 };
