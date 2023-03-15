@@ -13,6 +13,7 @@ interface CheckboxProps {
 const Container = styled("div")`
   position: relative;
   box-sizing: border-box;
+  margin-left: -4px;
 `;
 
 const Button = styled("button")`
