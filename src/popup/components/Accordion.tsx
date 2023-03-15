@@ -19,7 +19,7 @@ const Button = styled("button")`
   align-items: center;
   text-transform: capitalize;
   width: 100%;
-  background-color: var(--background-level-3);
+  background-color: var(--background-level-2);
   color: var(--text-color);
   font-size: 1.25rem;
   padding: 1rem;
@@ -27,12 +27,18 @@ const Button = styled("button")`
   font-weight: 500;
   cursor: pointer;
   border: 0;
-  border-bottom: 1px solid var(--background-level-2);
+  border-bottom: 1px solid var(--background-level-1);
 
   &[aria-expanded="true"] {
     & > svg {
       transform: rotate(180deg);
     }
+  }
+`;
+
+const containerStyle = css`
+  &:last-child > button {
+    border: none;
   }
 `;
 
@@ -86,7 +92,7 @@ export const Accordion: FunctionComponent<AccordionProps> = ({
   }, [isOpen, contentRef]);
 
   return (
-    <div className={containerClassName}>
+    <div className={clsx(containerStyle, containerClassName)}>
       <Button aria-expanded={isOpen} aria-controls={id} onClick={() => setIsOpen(!isOpen)}>
         {text} <IoCaretDown />
       </Button>
