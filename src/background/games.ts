@@ -2,7 +2,7 @@ import { IFreeGame } from "../types/freegames";
 import { db } from "../utils/db";
 import { compareGameTitles } from "../utils/game";
 import { getEpicGames } from "./providers/epic";
-import { getGamerpower } from "./providers/gamepower";
+import { getGamerpower } from "./providers/gamerpower";
 import { getGGDeals } from "./providers/ggdeals";
 
 // First games in array takes priority, so first-party sources should be the first entries in the array
