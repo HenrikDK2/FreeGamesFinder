@@ -56,17 +56,6 @@ const contentStyle = css`
 
   &[aria-hidden="true"] {
     margin: 0;
-
-    a[href],
-    area[href],
-    input:not([disabled]),
-    select:not([disabled]),
-    textarea:not([disabled]),
-    button:not([disabled]),
-    [tabindex]:not([disabled]),
-    [contenteditable="true"]:not([disabled]) {
-      visibility: hidden;
-    }
   }
 `;
 
@@ -88,7 +77,9 @@ export const Accordion: FunctionComponent<AccordionProps> = ({
       if (isOpen) {
         target.style.maxHeight = target.scrollHeight + "px";
         target.style.opacity = "1";
+        target.inert = false;
       } else {
+        target.inert = true;
         target.style.maxHeight = 0 + "px";
         target.style.overflow = "hidden";
         target.style.opacity = "0";
