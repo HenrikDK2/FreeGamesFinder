@@ -29,7 +29,9 @@ const SelectButton = styled("button")`
   box-sizing: border-box;
   padding: 6px;
   width: 100%;
-  &:hover {
+  &:hover,
+  &:focus-visible {
+    outline: none;
     background-color: rgba(255, 255, 255, 0.05);
   }
 `;

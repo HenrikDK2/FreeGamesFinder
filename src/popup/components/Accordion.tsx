@@ -23,6 +23,7 @@ const Button = styled("button")`
   color: var(--text-color);
   font-size: 1.25rem;
   padding: 1rem;
+  transition: all 0.2s ease;
   box-sizing: border-box;
   font-weight: 500;
   cursor: pointer;
@@ -33,6 +34,11 @@ const Button = styled("button")`
     & > svg {
       transform: rotate(180deg);
     }
+  }
+
+  &:focus-visible {
+    outline: none;
+    background-color: var(--background-level-3);
   }
 `;
 
@@ -50,6 +56,17 @@ const contentStyle = css`
 
   &[aria-hidden="true"] {
     margin: 0;
+
+    a[href],
+    area[href],
+    input:not([disabled]),
+    select:not([disabled]),
+    textarea:not([disabled]),
+    button:not([disabled]),
+    [tabindex]:not([disabled]),
+    [contenteditable="true"]:not([disabled]) {
+      visibility: hidden;
+    }
   }
 `;
 

@@ -38,7 +38,8 @@ const GameItem = styled("li")(({ game }: { game: IFreeGame }) => ({
     marginTop: "1rem",
   },
 
-  "&:hover": {
+  "&:hover, &:focus-visible": {
+    outline: "none",
     opacity: game.state.hasClicked ? 0.2 : 0.5,
   },
 }));
