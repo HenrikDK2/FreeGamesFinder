@@ -2,7 +2,7 @@ import Browser from "webextension-polyfill";
 import { switchIcon } from ".";
 import { ISettings } from "../types/settings";
 import { IDB } from "../types/db";
-import { sortGames } from "./game";
+import { compareGameTitles, sortGames } from "./game";
 
 const defaultSettings: ISettings = {
   hideClickedGames: false,
@@ -57,7 +57,11 @@ export const db: IDB = {
 
   find(key, data) {
     if (key === "game") {
-      return db.get("games").find((game) => game.url === data.url);
+      return db.get("games").find((game) => {
+        if (game.url === data.url || (data.title && compareGameTitles(game.title, data.title))) {
+          return game;
+        }
+      });
     }
   },
 };

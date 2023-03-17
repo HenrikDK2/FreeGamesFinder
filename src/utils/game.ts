@@ -1,5 +1,6 @@
 import { Platform, IFreeGame } from "../types/freegames";
 import { ISettings } from "../types/settings";
+import { db } from "./db";
 
 export const getProductType = (type?: string) => {
   if (type) type = type.toLowerCase().replace(/ /g, "");
@@ -28,6 +29,21 @@ export const getPlatform = (platform: string): Platform | undefined => {
 
 export const sortGames = (games: IFreeGame[]): IFreeGame[] => {
   return games.sort((a, b) => Number(a.state.hasClicked) - Number(b.state.hasClicked));
+};
+
+export const compareGameTitles = (a: IFreeGame["title"], b: IFreeGame["title"]) => {
+  const formatStr = (title: string) => title.toLowerCase().replace(/ /g, "");
+
+  return formatStr(a) === formatStr(b);
+};
+
+export const getGameState = (title: IFreeGame["title"], url: IFreeGame["url"]) => {
+  return (
+    db.find("game", { url, title })?.state || {
+      hasClicked: false,
+      hasSendNotification: false,
+    }
+  );
 };
 
 export const filterGamesList = (games: IFreeGame[], settings: ISettings): IFreeGame[] => {

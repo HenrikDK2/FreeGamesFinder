@@ -1,7 +1,6 @@
-import { getProductType, getPlatform } from "../../utils/game";
+import { getProductType, getPlatform, getGameState } from "../../utils/game";
 import { getDOMFromUrl } from "../../utils";
 import { IFreeGame } from "../../types/freegames";
-import { db } from "../../utils/db";
 
 export const getGGDeals = async (): Promise<IFreeGame[]> => {
   try {
@@ -17,11 +16,7 @@ export const getGGDeals = async (): Promise<IFreeGame[]> => {
         const title = titleLink.textContent || "";
         const imageSrc = img.getAttribute("srcset")!.split(",")[1].replace(" 2x", "");
         const platform = getPlatform(el.getAttribute("data-shop-name")!);
-
-        const state = db.find("game", { url })?.state || {
-          hasClicked: false,
-          hasSendNotification: false,
-        };
+        const state = getGameState(title, url);
 
         return {
           url,

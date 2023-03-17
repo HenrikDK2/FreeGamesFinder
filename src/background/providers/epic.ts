@@ -1,6 +1,5 @@
-import { getProductType, getPlatform } from "../../utils/game";
+import { getProductType, getPlatform, getGameState } from "../../utils/game";
 import { IFreeGame } from "../../types/freegames";
-import { db } from "../../utils/db";
 import { EpicGamesRequestData } from "../../types/epicgames";
 import axios from "axios";
 
@@ -21,13 +20,10 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
 
       const games: IFreeGame[] = products.map((product) => {
         const url = "https://store.epicgames.com/p/" + product.urlSlug;
-        const state = db.find("game", { url })?.state || {
-          hasClicked: false,
-          hasSendNotification: false,
-        };
+        const state = getGameState(product.title, url);
 
         return {
-          state: state,
+          state,
           title: product.title,
           imageSrc: product.keyImages.find((e) => e.type === "Thumbnail")?.url,
           url,

@@ -1,6 +1,5 @@
-import { getProductType, getPlatform } from "../../utils/game";
+import { getProductType, getPlatform, getGameState } from "../../utils/game";
 import { IFreeGame } from "../../types/freegames";
-import { db } from "../../utils/db";
 import axios from "axios";
 import { GamerPowerRequestData } from "../../types/gamerpower";
 
@@ -35,14 +34,10 @@ export const getGamerpower = async (): Promise<IFreeGame[]> => {
 
         const url = game.open_giveaway_url;
         const title = game.title.replace(/ \((Steam|IndieGala|Epic\s*Games|itch\.io|itchio|GOG|PC)\)| Giveaway/gi, "");
-
-        const state = db.find("game", { url })?.state || {
-          hasClicked: false,
-          hasSendNotification: false,
-        };
+        const state = getGameState(title, url);
 
         return {
-          state: state,
+          state,
           title,
           imageSrc: game.thumbnail,
           url,
