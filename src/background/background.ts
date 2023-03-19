@@ -12,14 +12,15 @@ Browser.browserAction.setTitle({ title: `${manifest.name} ${manifest.version}` }
 const { updateIntervalInMinutes, updateOnBrowserStart } = db.get("settings");
 let gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
 
-// Check for new games on browser launch
-if (updateOnBrowserStart) checkForNewGames();
-
+// Reset interval for new minutes value
 const resetInterval = () => {
   const { updateIntervalInMinutes } = db.get("settings");
   clearInterval(gamesListInterval);
   gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
 };
+
+// Check for new games on browser launch
+if (updateOnBrowserStart) checkForNewGames();
 
 // Once game notification has been clicked, then update game state value "hasClicked" to True
 Browser.notifications.onClicked.addListener((url) => {
@@ -32,18 +33,10 @@ Browser.notifications.onClicked.addListener((url) => {
 });
 
 Browser.runtime.onMessage.addListener(async (msg: BackgroundMessages) => {
-  switch (msg.key) {
-    case "reload": {
-      Browser.runtime.sendMessage(undefined, { key: "reload" });
-    }
-
-    case "settings": {
-      resetInterval();
-      Browser.runtime.sendMessage(undefined, { key: "reload" });
-    }
-
-    default: {
-      return true;
-    }
+  if (msg.key === "update-interval") {
+    resetInterval();
   }
+
+  // By default it will the update rootState in popup.
+  Browser.runtime.sendMessage(undefined, { key: "reload" });
 });

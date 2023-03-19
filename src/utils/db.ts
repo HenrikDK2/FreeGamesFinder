@@ -38,7 +38,12 @@ export const db: IDB = {
     if (key === "settings") {
       const oldSettings = db.get("settings");
       localStorage.setItem("settings", JSON.stringify({ ...oldSettings, ...data }));
-      Browser.runtime.sendMessage(undefined, { key: "settings" });
+
+      if ("updateIntervalInMinutes" in data) {
+        Browser.runtime.sendMessage(undefined, { key: "update-interval" });
+      } else {
+        Browser.runtime.sendMessage(undefined, { key: "reload" });
+      }
     }
 
     if (key === "games" && Array.isArray(data)) {
