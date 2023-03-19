@@ -8,8 +8,12 @@ import manifest from "../../public/manifest.json";
 // Set popup title
 Browser.browserAction.setTitle({ title: `${manifest.name} ${manifest.version}` });
 
+// Check for new games every x minutes
 const { updateIntervalInMinutes, updateOnBrowserStart } = db.get("settings");
 let gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
+
+// Check for new games on browser launch
+if (updateOnBrowserStart) checkForNewGames();
 
 const resetInterval = () => {
   const { updateIntervalInMinutes } = db.get("settings");
@@ -17,15 +21,7 @@ const resetInterval = () => {
   gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
 };
 
-const browserUpdate = async () => {
-  resetInterval();
-  await checkForNewGames();
-  Browser.runtime.sendMessage(undefined, { key: "reload" });
-  return Promise.resolve("done");
-};
-
-if (updateOnBrowserStart) checkForNewGames();
-
+// Once game notification has been clicked, then update game state value "hasClicked" to True
 Browser.notifications.onClicked.addListener((url) => {
   const game = db.find("game", { url });
 
@@ -36,12 +32,7 @@ Browser.notifications.onClicked.addListener((url) => {
 });
 
 Browser.runtime.onMessage.addListener(async (msg: BackgroundMessages) => {
-  console.log(JSON.stringify(msg));
   switch (msg.key) {
-    case "update": {
-      return browserUpdate();
-    }
-
     case "reload": {
       Browser.runtime.sendMessage(undefined, { key: "reload" });
     }
@@ -49,7 +40,6 @@ Browser.runtime.onMessage.addListener(async (msg: BackgroundMessages) => {
     case "settings": {
       resetInterval();
       Browser.runtime.sendMessage(undefined, { key: "reload" });
-      if ("update" in msg && msg.update) browserUpdate();
     }
 
     default: {
