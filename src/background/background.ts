@@ -12,7 +12,7 @@ Browser.browserAction.setTitle({ title: `${manifest.name} ${manifest.version}` }
 const { updateIntervalInMinutes, updateOnBrowserStart } = db.get("settings");
 let gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
 
-// Reset interval for new minutes value
+// Reset update interval for new "updateIntervalInMinutes" value
 const resetInterval = () => {
   const { updateIntervalInMinutes } = db.get("settings");
   clearInterval(gamesListInterval);
@@ -37,6 +37,6 @@ Browser.runtime.onMessage.addListener(async (msg: BackgroundMessages) => {
     resetInterval();
   }
 
-  // By default it will the update rootState in popup.
+  // By default it will update the rootState in popup.
   Browser.runtime.sendMessage(undefined, { key: "reload" });
 });
