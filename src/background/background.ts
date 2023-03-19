@@ -11,14 +11,14 @@ Browser.browserAction.setTitle({ title: `${manifest.name} ${manifest.version}` }
 const { updateIntervalInMinutes, updateOnBrowserStart } = db.get("settings");
 let gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
 
-const resetInternal = () => {
+const resetInterval = () => {
   const { updateIntervalInMinutes } = db.get("settings");
   clearInterval(gamesListInterval);
   gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
 };
 
 const browserUpdate = async () => {
-  resetInternal();
+  resetInterval();
   await checkForNewGames();
   Browser.runtime.sendMessage(undefined, { key: "reload" });
   return Promise.resolve("done");
@@ -47,7 +47,7 @@ Browser.runtime.onMessage.addListener(async (msg: BackgroundMessages) => {
     }
 
     case "settings": {
-      resetInternal();
+      resetInterval();
       Browser.runtime.sendMessage(undefined, { key: "reload" });
       if ("update" in msg && msg.update) browserUpdate();
     }
