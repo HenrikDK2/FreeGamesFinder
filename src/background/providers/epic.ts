@@ -1,7 +1,19 @@
 import { getProductType, getPlatform, getGameState } from "../../utils/game";
 import { IFreeGame } from "../../types/freegames";
-import { EpicGamesRequestData } from "../../types/epicgames";
+import { Element, EpicGamesRequestData } from "../../types/epicgames";
 import axios from "axios";
+
+const getUrlSlug = (game: Element): string => {
+  if (game.offerMappings[0]) {
+    return game.offerMappings[0].pageSlug;
+  }
+
+  if (game.catalogNs.mappings[0]) {
+    return game.catalogNs.mappings[0].pageSlug;
+  }
+
+  return game.urlSlug;
+};
 
 export const getEpicGames = async (): Promise<IFreeGame[]> => {
   try {
@@ -19,9 +31,9 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
       });
 
       const games: IFreeGame[] = products.map((product) => {
-        const url = "https://store.epicgames.com/p/" + product.urlSlug;
+        const url = "https://store.epicgames.com/p/" + getUrlSlug(product);
         const state = getGameState(product.title, url);
-
+        console.log(product);
         return {
           state,
           title: product.title,
