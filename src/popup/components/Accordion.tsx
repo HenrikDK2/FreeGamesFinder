@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { css, styled } from "goober";
-import { ComponentChildren, FunctionComponent } from "preact";
+import { ComponentChildren, FunctionComponent, JSX } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { IoCaretDown } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid";
@@ -10,6 +10,7 @@ interface AccordionProps {
   containerClassName?: string;
   contentClassName?: string;
   isDefaultOpen?: boolean;
+  gap?: JSX.CSSProperties["gap"];
   text: string;
 }
 
@@ -52,6 +53,8 @@ const contentStyle = css`
   overflow: hidden;
   max-height: 0;
   transition: 0.2s all ease;
+  padding: 0 1rem;
+  margin: 1rem 0;
   opacity: 1;
 
   &[aria-hidden="true"] {
@@ -59,10 +62,17 @@ const contentStyle = css`
   }
 `;
 
+const gapClassName = css`
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+`;
+
 export const Accordion: FunctionComponent<AccordionProps> = ({
   children,
   containerClassName,
   contentClassName,
+  gap,
   text,
   isDefaultOpen = false,
 }) => {
@@ -104,7 +114,13 @@ export const Accordion: FunctionComponent<AccordionProps> = ({
       <Button aria-expanded={isOpen} aria-controls={id} onClick={() => setIsOpen(!isOpen)}>
         {text} <IoCaretDown />
       </Button>
-      <div id={id} className={clsx(contentStyle, contentClassName)} aria-hidden={!isOpen} ref={contentRef}>
+      <div
+        id={id}
+        style={{ gap }}
+        className={clsx(contentStyle, gap && gapClassName, contentClassName)}
+        aria-hidden={!isOpen}
+        ref={contentRef}
+      >
         {children}
       </div>
     </div>

@@ -32,15 +32,6 @@ const layoutClassName = css`
   padding: 0 0 80px 0 !important;
 `;
 
-const accordionContentClassName = css`
-  display: flex;
-  margin: 1rem 0;
-  padding: 0 1rem;
-  box-sizing: border-box;
-  flex-direction: column;
-  gap: 1.5rem;
-`;
-
 export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ settings }) => {
   const platformHandler = (platform: Platform) => {
     if (settings.showPlatforms.includes(platform)) {
@@ -69,7 +60,7 @@ export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ setting
 
   return (
     <Layout className={layoutClassName}>
-      <Accordion text="general" contentClassName={accordionContentClassName}>
+      <Accordion text="general" gap="1.5rem">
         <Checkbox
           onClick={() => db.update("settings", { hideClickedGames: !settings.hideClickedGames })}
           isChecked={settings.hideClickedGames}
@@ -83,7 +74,7 @@ export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ setting
         />
       </Accordion>
 
-      <Accordion text="Updates" contentClassName={accordionContentClassName}>
+      <Accordion text="Updates" gap="1.5rem">
         <Select
           id="updateIntervalInMinutes"
           onChange={onChangeHandler}
@@ -98,7 +89,7 @@ export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ setting
         />
       </Accordion>
 
-      <Accordion text="Platforms" contentClassName={accordionContentClassName}>
+      <Accordion text="Platforms" gap="1.5rem">
         {Object.values(EnumPlatform).map((str) => {
           const platform = str as Platform;
 
