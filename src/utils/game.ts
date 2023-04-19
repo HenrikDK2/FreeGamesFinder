@@ -32,7 +32,7 @@ export const sortGames = (games: IFreeGame[]): IFreeGame[] => {
 };
 
 export const compareGameTitles = (a: IFreeGame["title"], b: IFreeGame["title"]) => {
-  const formatStr = (title: string) => title.toLowerCase().replace(/ /g, "");
+  const formatStr = (title: string) => title.toLowerCase().replace(/( |™)/g, "");
 
   return formatStr(a) === formatStr(b);
 };
