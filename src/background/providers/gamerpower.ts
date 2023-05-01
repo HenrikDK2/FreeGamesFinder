@@ -2,6 +2,7 @@ import { getProductType, getPlatform, getGameState } from "../../utils/game";
 import { IFreeGame } from "../../types/freegames";
 import axios from "axios";
 import { GamerPowerRequestData } from "../../types/gamerpower";
+import { createError } from "../../utils/errorHandler";
 
 export const getGamerpower = async (): Promise<IFreeGame[]> => {
   try {
@@ -47,7 +48,7 @@ export const getGamerpower = async (): Promise<IFreeGame[]> => {
       });
     }
   } catch (error) {
-    console.error(error);
+    createError("An error occured with Gamerpower provider: ", error);
   }
 
   return [];

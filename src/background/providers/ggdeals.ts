@@ -1,6 +1,7 @@
 import { getProductType, getPlatform, getGameState } from "../../utils/game";
 import { getDOMFromUrl } from "../../utils";
 import { IFreeGame } from "../../types/freegames";
+import { createError } from "../../utils/errorHandler";
 
 export const getGGDeals = async (): Promise<IFreeGame[]> => {
   try {
@@ -29,7 +30,7 @@ export const getGGDeals = async (): Promise<IFreeGame[]> => {
       });
     }
   } catch (error) {
-    console.error(error);
+    createError("An error occured with GGDeals provider: ", error);
   }
 
   return [];

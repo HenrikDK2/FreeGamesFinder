@@ -2,6 +2,7 @@ import { getProductType, getPlatform, getGameState } from "../../utils/game";
 import { IFreeGame } from "../../types/freegames";
 import { Element, EpicGamesRequestData } from "../../types/epicgames";
 import axios from "axios";
+import { createError } from "../../utils/errorHandler";
 
 const getUrlSlug = (game: Element): string => {
   if (game.offerMappings[0]) {
@@ -47,7 +48,7 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
       return games;
     }
   } catch (error) {
-    console.error(error);
+    createError("An error occured with Epic provider: ", error);
   }
 
   return [];

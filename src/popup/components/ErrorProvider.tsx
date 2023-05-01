@@ -4,6 +4,7 @@ import { useBrowserRuntimeMsg } from "../hooks/useBrowserRuntimeMsg";
 import { Errors } from "../../types";
 import { styled } from "goober";
 import { IoMdClose } from "react-icons/io";
+import { truncateString } from "../utils";
 
 const ErrorMessage = styled("aside")`
   position: fixed;
@@ -23,6 +24,7 @@ const ErrorMessage = styled("aside")`
 const Message = styled("h4")`
   margin: 0;
   color: #fff;
+  word-break: break-all;
   font-weight: bold;
 `;
 
@@ -43,9 +45,9 @@ const DeleteButton = styled("button")`
 
 const formatError = (errors: Errors) => {
   if (errors.length > 1) {
-    return `(${errors.length}) ` + errors[errors.length - 1];
+    return truncateString(`(${errors.length}) ` + errors[errors.length - 1], 1000);
   } else {
-    return errors[errors.length - 1];
+    return truncateString(errors[errors.length - 1], 1000);
   }
 };
 
