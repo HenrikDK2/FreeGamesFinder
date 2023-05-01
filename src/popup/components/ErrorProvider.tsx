@@ -53,7 +53,7 @@ const formatError = (errors: Errors) => {
 
 export const ErrorProvider = () => {
   const [errors, setErrors] = useState<Errors>(getErrors());
-  console.log(errors);
+
   useBrowserRuntimeMsg((props) => {
     if (props.key === "errors") {
       setErrors(getErrors());
