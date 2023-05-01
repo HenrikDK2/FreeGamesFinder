@@ -3,7 +3,6 @@ import { db } from "../utils/db";
 import { compareGameTitles } from "../utils/game";
 import { getEpicGames } from "./providers/epic";
 import { getGamerpower } from "./providers/gamerpower";
-import { getGGDeals } from "./providers/ggdeals";
 
 // First games in array takes priority, so first-party sources should be the first entries in the array
 const uniqueGames = (games: IFreeGame[]): IFreeGame[] => {
@@ -15,11 +14,7 @@ const uniqueGames = (games: IFreeGame[]): IFreeGame[] => {
 };
 
 export const getGamesFromSources = async (): Promise<IFreeGame[]> => {
-  const games: IFreeGame[] = uniqueGames([
-    ...(await getEpicGames()),
-    ...(await getGGDeals()),
-    ...(await getGamerpower()),
-  ]);
+  const games: IFreeGame[] = uniqueGames([...(await getEpicGames()), ...(await getGamerpower())]);
 
   if (games.length > 0) db.update("games", games);
 
