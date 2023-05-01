@@ -6,5 +6,9 @@ export interface ReloadMessage {
   key: "reload";
 }
 
+export interface ErrorMessage {
+  key: "errors";
+}
+
 export type BackgroundMessages = UpdateIntervalMessage | ReloadMessage;
-export type BrowserMessages = ReloadMessage;
+export type BrowserMessages = ReloadMessage | ErrorMessage;

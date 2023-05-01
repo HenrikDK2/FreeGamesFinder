@@ -5,3 +5,6 @@ export interface RootState {
   games: IFreeGame[] | undefined;
   settings: ISettings;
 }
+
+export type Error = string;
+export type Errors = Error[];

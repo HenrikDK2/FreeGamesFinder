@@ -1,0 +1,85 @@
+import { useState } from "preact/hooks";
+import { getErrors } from "../../utils/errorHandler";
+import { useBrowserRuntimeMsg } from "../hooks/useBrowserRuntimeMsg";
+import { Errors } from "../../types";
+import { styled } from "goober";
+import { IoMdClose } from "react-icons/io";
+
+const ErrorMessage = styled("aside")`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  width: 100vw;
+  min-height: 30px;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: rgba(255, 0, 0, 0.7);
+`;
+
+const Message = styled("h4")`
+  margin: 0;
+  color: #fff;
+  font-weight: bold;
+`;
+
+const DeleteButton = styled("button")`
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #fff;
+  flex-shrink: 0;
+  width: 30px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const formatError = (errors: Errors) => {
+  if (errors.length > 1) {
+    return `(${errors.length}) ` + errors[errors.length - 1];
+  } else {
+    return errors[errors.length - 1];
+  }
+};
+
+export const ErrorProvider = () => {
+  const [errors, setErrors] = useState<Errors>(getErrors());
+  console.log(errors);
+  useBrowserRuntimeMsg((props) => {
+    if (props.key === "errors") {
+      setErrors(getErrors());
+    }
+  });
+
+  const clickDeleteHandler = () => {
+    const newErrors: Errors = [...errors];
+    newErrors.pop();
+
+    localStorage.setItem("errors", JSON.stringify(newErrors));
+    setErrors(newErrors);
+  };
+
+  if (errors.length > 0) {
+    return (
+      <ErrorMessage>
+        <Message>{formatError(errors)}</Message>
+        <DeleteButton
+          onClick={() => {
+            clickDeleteHandler();
+          }}
+        >
+          <IoMdClose />
+        </DeleteButton>
+      </ErrorMessage>
+    );
+  }
+
+  return null;
+};
