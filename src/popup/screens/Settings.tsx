@@ -2,11 +2,13 @@ import { ComponentChildren, FunctionComponent } from "preact";
 import { Layout } from "../components/Layout";
 import { Select } from "../components/Select";
 import { Checkbox } from "../components/Checkbox";
-import { css } from "goober";
+import { css, styled } from "goober";
 import { ISettings } from "../../types/settings";
 import { db } from "../../utils/db";
 import { Accordion } from "../components/Accordion";
 import { EnumPlatform, Platform } from "../../types/freegames";
+import { IoLogoGithub } from "react-icons/io5";
+import { homepage } from "../../../package.json";
 
 interface SettingsScreenProps {
   children?: ComponentChildren;
@@ -27,6 +29,37 @@ const onChangeHandler = (e: string) => {
     db.update("settings", { updateIntervalInMinutes: entry[0] as unknown as ISettings["updateIntervalInMinutes"] });
   }
 };
+
+const SupportDevContainer = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto 0 20px 0;
+  padding-top: 20px;
+
+  h5 {
+    color: var(--text-color);
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  a {
+    cursor: pointer;
+    opacity: 0.8;
+    color: var(--text-color);
+    font-size: 2rem;
+    transition: all 0.2s ease;
+
+    &:active {
+      transform: scale(1.1);
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+`;
 
 const layoutClassName = css`
   padding: 0 0 80px 0 !important;
@@ -104,6 +137,13 @@ export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ setting
           }
         })}
       </Accordion>
+
+      <SupportDevContainer>
+        <h5>Support Development</h5>
+        <a href={homepage} alt="Link to Github repository">
+          <IoLogoGithub />
+        </a>
+      </SupportDevContainer>
     </Layout>
   );
 };
