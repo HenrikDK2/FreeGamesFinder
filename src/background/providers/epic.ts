@@ -33,7 +33,7 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
       const games: IFreeGame[] = products.map((product) => {
         const url = "https://store.epicgames.com/p/" + getUrlSlug(product);
         const state = getGameState(product.title, url);
-        console.log(product);
+
         return {
           state,
           title: product.title,
