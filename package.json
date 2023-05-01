@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Introducing the ultimate solution for keeping track of limited-time free games. Free Games Finder tracks and alerts you, so you never miss out on great games.",
   "main": "index.js",
+  "homepage": "https://github.com/HenrikDK2/FreeGamesFinder",
   "scripts": {
     "zip": "(cd dist && zip -r build.zip *)",
     "build": "rm -rf dist && webpack --mode=production --node-env=production && npm run zip",
