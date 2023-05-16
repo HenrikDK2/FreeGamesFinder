@@ -14,9 +14,12 @@ const uniqueGames = (games: IFreeGame[]): IFreeGame[] => {
 };
 
 export const getGamesFromSources = async (): Promise<IFreeGame[]> => {
-  const games: IFreeGame[] = uniqueGames([...(await getEpicGames()), ...(await getGamerpower())]);
+  if (navigator.onLine) {
+    const games: IFreeGame[] = uniqueGames([...(await getEpicGames()), ...(await getGamerpower())]);
+    if (games.length > 0) db.update("games", games);
 
-  if (games.length > 0) db.update("games", games);
-
-  return games;
+    return games;
+  } else {
+    return [];
+  }
 };
