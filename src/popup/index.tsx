@@ -1,9 +1,9 @@
 import "./global.css";
 import Router from "preact-router";
 import { FunctionComponent, render, h } from "preact";
-import { HomeScreen } from "./screens/Home";
+import HomeScreen from "./screens/Home";
 import { setup } from "goober";
-import { SettingsScreen } from "./screens/Settings";
+import SettingsScreen from "./screens/Settings";
 import { useRootState } from "./hooks/useRootState";
 import { ErrorProvider } from "./components/ErrorProvider";
 

@@ -104,7 +104,7 @@ const clickHandler = (e: MouseEvent, game: IFreeGame) => {
   window.open(game.url);
 };
 
-export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => (
+const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => (
   <Layout>
     <GamesList>
       {state.games?.map((game) => (
@@ -131,3 +131,5 @@ export const HomeScreen: FunctionComponent<HomeScreenProps> = ({ state }) => (
     )}
   </Layout>
 );
+
+export default HomeScreen;

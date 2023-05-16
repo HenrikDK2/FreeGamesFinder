@@ -8,7 +8,7 @@ import { db } from "../../utils/db";
 import { Accordion } from "../components/Accordion";
 import { EnumPlatform, Platform } from "../../types/freegames";
 import { IoLogoGithub } from "react-icons/io5";
-import { homepage } from "../../../package.json";
+import packageJson from "../../../package.json";
 
 interface SettingsScreenProps {
   children?: ComponentChildren;
@@ -65,7 +65,7 @@ const layoutClassName = css`
   padding: 0 0 80px 0 !important;
 `;
 
-export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ settings }) => {
+const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ settings }) => {
   const platformHandler = (platform: Platform) => {
     if (settings.showPlatforms.includes(platform)) {
       const index = settings.showPlatforms.indexOf(platform);
@@ -140,10 +140,12 @@ export const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ setting
 
       <SupportDevContainer>
         <h5>Support Development</h5>
-        <a href={homepage} alt="Link to Github repository">
+        <a href={packageJson.homepage} alt="Link to Github repository">
           <IoLogoGithub />
         </a>
       </SupportDevContainer>
     </Layout>
   );
 };
+
+export default SettingsScreen;
