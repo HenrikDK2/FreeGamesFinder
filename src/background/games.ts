@@ -20,6 +20,6 @@ export const getGamesFromSources = async (): Promise<IFreeGame[]> => {
 
     return games;
   } else {
-    return [];
+    return db.get("games");
   }
 };
