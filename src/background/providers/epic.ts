@@ -49,6 +49,7 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
     }
   } catch (error) {
     createError("An error occured with Epic provider: ", error);
+    throw error;
   }
 
   return [];

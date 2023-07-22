@@ -49,6 +49,7 @@ export const getGamerpower = async (): Promise<IFreeGame[]> => {
     }
   } catch (error) {
     createError("An error occured with Gamerpower provider: ", error);
+    throw error;
   }
 
   return [];
