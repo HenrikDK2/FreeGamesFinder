@@ -23,7 +23,9 @@ const resetInterval = () => {
 };
 
 // Check for new games on browser launch
-if (updateOnBrowserStart) checkForNewGames();
+if (updateOnBrowserStart && navigator.onLine) {
+  setTimeout(() => checkForNewGames(), 2000);
+}
 
 // Once game notification has been clicked, then update game state value "hasClicked" to True
 Browser.notifications.onClicked.addListener((url) => {

@@ -9,7 +9,7 @@ const defaultSettings: ISettings = {
   hideClickedGames: false,
   updateIntervalInMinutes: 60,
   updateOnBrowserStart: true,
-  showErrors: true,
+  showErrors: false,
   notifications: true,
   showPlatforms: ["Steam", "Epic Games Store", "GoG"],
 };

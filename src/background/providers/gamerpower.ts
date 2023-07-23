@@ -8,7 +8,6 @@ export const getGamerpower = async (): Promise<IFreeGame[]> => {
   try {
     const { status, data } = await axios<GamerPowerRequestData>({
       url: "https://www.gamerpower.com/api/filter",
-      timeout: 10000,
       params: {
         platform: "epic-games-store.steam.gog.itchio.drm-free",
         type: "game",

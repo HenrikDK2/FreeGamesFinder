@@ -87,7 +87,7 @@ export const ErrorProvider = () => {
   };
 
   const clickCopyHandler = () => {
-    navigator.clipboard.writeText(errors[errors.length - 1].details);
+    navigator.clipboard.writeText(JSON.stringify(errors[errors.length - 1].details, null, 2));
     Browser.tabs.create({
       url: "https://github.com/HenrikDK2/FreeGamesFinder/issues/new?assignees=HenrikDK2&labels=bug&projects=&template=bug_report.md&title=%5BBUG%5D+Something+went+wrong",
     });
