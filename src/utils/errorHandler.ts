@@ -2,7 +2,7 @@ import Browser from "webextension-polyfill";
 import { Error } from "../types";
 import { db } from "./db";
 
-export const createError = (str: Error, error: any) => {
+export const createError = (str: Error["msg"], error: any) => {
   const errors = db.get("errors");
   let errorMsg: string = "";
 
@@ -14,7 +14,5 @@ export const createError = (str: Error, error: any) => {
     errorMsg = error.msg;
   }
 
-  localStorage.setItem("errors", JSON.stringify([str + errorMsg, ...errors]));
-
-  Browser.runtime.sendMessage(undefined, "errors");
+  db.update("errors", [{ msg: str + errorMsg, details: error }, ...errors]);
 };

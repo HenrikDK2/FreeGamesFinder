@@ -6,5 +6,5 @@ export interface RootState {
   settings: ISettings;
 }
 
-export type Error = string;
+export type Error = { msg: string; details: string };
 export type Errors = Error[];
