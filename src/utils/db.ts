@@ -27,6 +27,13 @@ export const db: IDB = {
       }
     }
 
+    if (key === "errors") {
+      const errors = localStorage.getItem("errors");
+
+      if (errors) return JSON.parse(errors);
+      return [];
+    }
+
     if (key === "settings") {
       const settings = localStorage.getItem("settings");
       if (!settings) return defaultSettings;

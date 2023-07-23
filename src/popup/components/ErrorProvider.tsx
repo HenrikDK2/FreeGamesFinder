@@ -1,10 +1,10 @@
 import { useState } from "preact/hooks";
-import { getErrors } from "../../utils/errorHandler";
 import { useBrowserRuntimeMsg } from "../hooks/useBrowserRuntimeMsg";
 import { Errors } from "../../types";
 import { styled } from "goober";
 import { IoMdClose } from "react-icons/io";
 import { truncateString } from "../utils";
+import { db } from "../../utils/db";
 
 const ErrorMessage = styled("aside")`
   position: fixed;
@@ -52,11 +52,11 @@ const formatError = (errors: Errors) => {
 };
 
 export const ErrorProvider = () => {
-  const [errors, setErrors] = useState<Errors>(getErrors());
+  const [errors, setErrors] = useState<Errors>(db.get("errors"));
 
   useBrowserRuntimeMsg((props) => {
     if (props.key === "errors") {
-      setErrors(getErrors());
+      setErrors(db.get("errors"));
     }
   });
 
