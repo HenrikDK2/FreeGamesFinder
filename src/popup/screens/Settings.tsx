@@ -105,6 +105,12 @@ const SettingsScreen: FunctionComponent<SettingsScreenProps> = ({ settings }) =>
           isChecked={settings.notifications}
           label="Show browser notifications"
         />
+
+        <Checkbox
+          onClick={() => db.update("settings", { showErrors: !settings.showErrors })}
+          isChecked={settings.showErrors}
+          label="Show errors"
+        />
       </Accordion>
 
       <Accordion text="Updates" gap="1.5rem">
