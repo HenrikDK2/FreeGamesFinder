@@ -8,6 +8,9 @@ import manifest from "../../public/manifest.json";
 // Set popup title
 Browser.browserAction.setTitle({ title: `${manifest.name} ${manifest.version}` });
 
+// Reset errors
+db.update("errors", []);
+
 // Check for new games every x minutes
 const { updateIntervalInMinutes, updateOnBrowserStart } = db.get("settings");
 let gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));

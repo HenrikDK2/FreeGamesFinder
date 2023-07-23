@@ -13,10 +13,6 @@ const defaultSettings: ISettings = {
   showPlatforms: ["Steam", "Epic Games Store", "GoG"],
 };
 
-function isFreeGameArray(data: any): data is IFreeGame[] {
-  return Array.isArray(data) && data.length > 0 && "title" in data[0] && "url" in data[0];
-}
-
 export const db: IDB = {
   get(key) {
     if (key === "games") {
@@ -33,7 +29,7 @@ export const db: IDB = {
     }
 
     if (key === "errors") {
-      const errors = sessionStorage.getItem("errors");
+      const errors = localStorage.getItem("errors");
 
       if (errors) return JSON.parse(errors);
       return [];
@@ -58,14 +54,16 @@ export const db: IDB = {
       }
     }
 
-    if (key === "errors" && data) {
-      sessionStorage.setItem("errors", JSON.stringify(data));
+    if (key === "errors" && Array.isArray(data)) {
+      localStorage.setItem("errors", JSON.stringify(data));
+      Browser.runtime.sendMessage(undefined, "errors");
     }
 
-    if (key === "games" && isFreeGameArray(data)) {
-      localStorage.setItem("games", JSON.stringify(sortGames(data)));
+    if (key === "games") {
+      const gamesData = data as IFreeGame[];
+      localStorage.setItem("games", JSON.stringify(sortGames(gamesData)));
       Browser.runtime.sendMessage(undefined, { key: "reload" });
-      switchIcon(data);
+      switchIcon(gamesData);
     }
 
     if (key === "game" && "title" in data) {
