@@ -3,6 +3,7 @@ import { switchIcon } from ".";
 import { ISettings } from "../types/settings";
 import { IDB } from "../types/db";
 import { compareGameTitles, sortGames } from "./game";
+import { IFreeGame } from "../types/freegames";
 
 const defaultSettings: ISettings = {
   hideClickedGames: false,
@@ -11,6 +12,10 @@ const defaultSettings: ISettings = {
   notifications: true,
   showPlatforms: ["Steam", "Epic Games Store", "GoG"],
 };
+
+function isFreeGameArray(data: any): data is IFreeGame[] {
+  return Array.isArray(data) && data.length > 0 && "title" in data[0] && "url" in data[0];
+}
 
 export const db: IDB = {
   get(key) {
@@ -53,7 +58,11 @@ export const db: IDB = {
       }
     }
 
-    if (key === "games" && Array.isArray(data)) {
+    if (key === "errors" && data) {
+      localStorage.setItem("errors", JSON.stringify(data));
+    }
+
+    if (key === "games" && isFreeGameArray(data)) {
       localStorage.setItem("games", JSON.stringify(sortGames(data)));
       Browser.runtime.sendMessage(undefined, { key: "reload" });
       switchIcon(data);

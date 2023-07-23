@@ -64,7 +64,7 @@ export const ErrorProvider = () => {
     const newErrors: Errors = [...errors];
     newErrors.pop();
 
-    localStorage.setItem("errors", JSON.stringify(newErrors));
+    db.update("errors", newErrors);
     setErrors(newErrors);
   };
 

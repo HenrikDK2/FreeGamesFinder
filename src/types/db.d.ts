@@ -15,6 +15,7 @@ export interface IDB {
   update: {
     (key: "game", data: IFreeGame): void;
     (key: "games", data: IFreeGame[]): void;
+    (key: "errors", data: Errors): void;
     (key: "settings", data: Partial<ISettings>): void;
   };
 }
