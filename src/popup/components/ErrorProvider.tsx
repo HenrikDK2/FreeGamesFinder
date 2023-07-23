@@ -70,6 +70,7 @@ const formatError = (errors: Errors) => {
 
 export const ErrorProvider = () => {
   const [errors, setErrors] = useState<Errors>(db.get("errors"));
+  const settings = db.get("settings");
 
   useBrowserRuntimeMsg((props) => {
     if (props.key === "errors") {
@@ -92,7 +93,7 @@ export const ErrorProvider = () => {
     });
   };
 
-  if (errors.length > 0) {
+  if (settings.showErrors && errors.length > 0) {
     return (
       <ErrorMessage>
         <Message>{formatError(errors)}</Message>
