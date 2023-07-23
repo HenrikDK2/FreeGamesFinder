@@ -33,7 +33,7 @@ export const db: IDB = {
     }
 
     if (key === "errors") {
-      const errors = localStorage.getItem("errors");
+      const errors = sessionStorage.getItem("errors");
 
       if (errors) return JSON.parse(errors);
       return [];
@@ -59,7 +59,7 @@ export const db: IDB = {
     }
 
     if (key === "errors" && data) {
-      localStorage.setItem("errors", JSON.stringify(data));
+      sessionStorage.setItem("errors", JSON.stringify(data));
     }
 
     if (key === "games" && isFreeGameArray(data)) {
