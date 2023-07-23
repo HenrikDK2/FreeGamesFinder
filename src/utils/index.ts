@@ -15,6 +15,7 @@ export const switchIcon = (games: IFreeGame[]) => {
 
 export const minutesToMs = (number: number) => 1000 * number * 60;
 
+// For future providers, it's possible to retrive the HTML from a website.
 export const getDOMFromUrl = async (url: string): Promise<HTMLElement | undefined> => {
   const { data } = await axios({ url, timeout: 5000 });
   return DOMPurify.sanitize(data, { RETURN_DOM: true, SANITIZE_DOM: true });
