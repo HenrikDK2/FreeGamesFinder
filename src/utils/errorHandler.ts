@@ -1,4 +1,3 @@
-import Browser from "webextension-polyfill";
 import { Error } from "../types";
 import { db } from "./db";
 
