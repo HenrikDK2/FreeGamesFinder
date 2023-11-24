@@ -1,4 +1,3 @@
-import Browser from "webextension-polyfill";
 import { Error } from "../types";
 import { db } from "./db";
 
@@ -12,6 +11,8 @@ export const createError = (str: Error["msg"], error: any) => {
     errorMsg = error;
   } else if (error.msg && typeof error.msg === "string") {
     errorMsg = error.msg;
+  } else {
+    errorMsg = JSON.stringify(error, null, 2);
   }
 
   db.update("errors", [{ msg: str + errorMsg, details: error }, ...errors]);
