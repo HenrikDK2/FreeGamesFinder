@@ -1,12 +1,13 @@
 import Browser from "webextension-polyfill";
 import { checkForNewGames } from "./notification";
 import { db } from "../utils/db";
-import { minutesToMs } from "../utils";
+import { minutesToMs, switchIcon } from "../utils";
 import { BackgroundMessages } from "../types/messages";
 import manifest from "../../public/manifest.json";
 
-// Set popup title
+// Set icon and popup title
 Browser.browserAction.setTitle({ title: `${manifest.name} ${manifest.version}` });
+switchIcon(db.get("games"));
 
 // Reset errors
 db.update("errors", []);
