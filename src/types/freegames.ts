@@ -1,8 +1,3 @@
-export enum EnumProductType {
-  "GAME",
-  "DLC",
-}
-
 export enum EnumPlatform {
   "Epic Games Store",
   "Steam",
@@ -13,7 +8,8 @@ export enum EnumPlatform {
 }
 export type Platform = keyof typeof EnumPlatform;
 
-export type ProductType = keyof typeof EnumProductType;
+export type ProductType = "GAME" | "DLC";
+
 export interface GameState {
   hasSendNotification: boolean;
   hasClicked: boolean;

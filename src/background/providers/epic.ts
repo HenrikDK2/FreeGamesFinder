@@ -13,7 +13,21 @@ const getUrlSlug = (game: Element): string => {
     return game.catalogNs.mappings[0].pageSlug;
   }
 
+  if (game.productSlug) {
+    return game.productSlug;
+  }
+
   return game.urlSlug;
+};
+
+const getImageSrc = (game: Element): string => {
+  const thumbnail = game.keyImages.find((e) => e.type === "Thumbnail")?.url;
+
+  if (typeof thumbnail === "string" && thumbnail.length > 0) {
+    return thumbnail;
+  } else {
+    return game.keyImages[0].url;
+  }
 };
 
 export const getEpicGames = async (): Promise<IFreeGame[]> => {
@@ -37,7 +51,7 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
         return {
           state,
           title: product.title,
-          imageSrc: product.keyImages.find((e) => e.type === "Thumbnail")?.url,
+          imageSrc: getImageSrc(product),
           url,
           platform: getPlatform("Epic Games Store"),
           productType: getProductType(product.offerType),
