@@ -5,6 +5,8 @@ import { CheckForUnclaimedGames, isURL, minutesToMs, switchIcon } from "../utils
 import { BackgroundMessages } from "../types/messages";
 import manifest from "../../public/manifest.json";
 
+const { updateIntervalInMinutes, updateOnBrowserStart, notifications } = db.get("settings");
+
 // Set icon and popup title
 Browser.browserAction.setTitle({ title: `${manifest.name} ${manifest.version}` });
 switchIcon(db.get("games"));
@@ -13,10 +15,11 @@ switchIcon(db.get("games"));
 db.update("errors", []);
 
 // Check for unclaimed games and send notification
-CheckForUnclaimedGames();
+if (notifications) {
+  CheckForUnclaimedGames();
+}
 
 // Check for new games every x minutes
-const { updateIntervalInMinutes, updateOnBrowserStart } = db.get("settings");
 let gamesListInterval = setInterval(checkForNewGames, minutesToMs(updateIntervalInMinutes));
 
 // Reset update interval for new "updateIntervalInMinutes" value
