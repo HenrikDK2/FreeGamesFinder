@@ -26,9 +26,14 @@ export const getDOMFromUrl = async (url: string): Promise<HTMLElement | undefine
 export const CheckForUnclaimedGames = () => {
   const games = filterGamesList(db.get("games"), db.get("settings"));
   let unclaimedGamesAmount = 0;
+  let message = `You have 1 game that is unclaimed`;
 
   for (const game of games) {
     if (!game.state.hasClicked) unclaimedGamesAmount += 1;
+  }
+
+  if (unclaimedGamesAmount > 1) {
+    message = `You have ${unclaimedGamesAmount} games that are unclaimed`;
   }
 
   if (unclaimedGamesAmount > 0) {
@@ -36,7 +41,7 @@ export const CheckForUnclaimedGames = () => {
       type: "basic",
       title: `${manifest.name}`,
       isClickable: true,
-      message: `You have ${unclaimedGamesAmount} games that are unclaimed`,
+      message,
     });
   }
 };
