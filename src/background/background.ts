@@ -1,7 +1,7 @@
 import Browser from "webextension-polyfill";
 import { checkForNewGames } from "./notification";
 import { db } from "../utils/db";
-import { minutesToMs, switchIcon } from "../utils";
+import { CheckForUnclaimedGames, isURL, minutesToMs, switchIcon } from "../utils";
 import { BackgroundMessages } from "../types/messages";
 import manifest from "../../public/manifest.json";
 
@@ -11,6 +11,9 @@ switchIcon(db.get("games"));
 
 // Reset errors
 db.update("errors", []);
+
+// Check for unclaimed games and send notification
+CheckForUnclaimedGames();
 
 // Check for new games every x minutes
 const { updateIntervalInMinutes, updateOnBrowserStart } = db.get("settings");
@@ -29,12 +32,18 @@ if (updateOnBrowserStart && navigator.onLine) {
 }
 
 // Once game notification has been clicked, then update game state value "hasClicked" to True
-Browser.notifications.onClicked.addListener((url) => {
-  const game = db.find("game", { url });
+Browser.notifications.onClicked.addListener((string) => {
+  if (string === "popup") {
+    Browser.tabs.create({ url: "index.html" });
+  }
 
-  if (game) {
-    db.update("game", { ...game, state: { ...game.state, hasClicked: true } });
-    Browser.tabs.create({ url: game.url });
+  if (isURL(string)) {
+    const game = db.find("game", { url: string });
+
+    if (game) {
+      db.update("game", { ...game, state: { ...game.state, hasClicked: true } });
+      Browser.tabs.create({ url: game.url });
+    }
   }
 });
 

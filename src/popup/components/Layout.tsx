@@ -5,11 +5,16 @@ import { BottomMenu } from "./BottomMenu";
 export const Main = styled("main")`
   display: flex;
   flex-direction: column;
-  width: 400px;
-  height: 600px;
+  width: 100%;
+  height: 100%;
   overflow: auto;
   padding: 1rem 1rem 0 1rem;
   box-sizing: border-box;
+
+  @media (max-width: 800px) {
+    width: 400px;
+    height: 600px;
+  }
 `;
 
 interface LayoutProps {
