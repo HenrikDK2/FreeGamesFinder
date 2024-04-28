@@ -20,7 +20,7 @@ export interface Element {
   namespace: string;
   description: string;
   effectiveDate: Date;
-  offerType: "BASE_GAME" | "DLC";
+  offerType: "BASE_GAME" | "DLC" | "BUNDLE";
   expiryDate: null;
   status: string;
   isCodeRedemptionOnly: boolean;

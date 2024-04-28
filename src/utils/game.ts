@@ -6,6 +6,9 @@ export const getProductType = (type?: string) => {
   if (type) type = type.toLowerCase().replace(/ /g, "");
 
   if (type === "dlc") return "DLC";
+
+  if (type === "bundle") return "BUNDLE";
+
   return "GAME";
 };
 

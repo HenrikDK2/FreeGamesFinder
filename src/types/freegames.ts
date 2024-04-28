@@ -8,7 +8,7 @@ export enum EnumPlatform {
 }
 export type Platform = keyof typeof EnumPlatform;
 
-export type ProductType = "GAME" | "DLC";
+export type ProductType = "GAME" | "DLC" | "BUNDLE";
 
 export interface GameState {
   hasSendNotification: boolean;

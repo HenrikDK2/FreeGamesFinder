@@ -20,6 +20,14 @@ const getUrlSlug = (game: Element): string => {
   return game.urlSlug;
 };
 
+const getUrl = (game: Element): string => {
+  if (game.offerType == "BUNDLE") {
+    return "https://store.epicgames.com/bundles/" + getUrlSlug(game);
+  }
+
+  return "https://store.epicgames.com/p/" + getUrlSlug(game);
+};
+
 const getImageSrc = (game: Element): string => {
   const thumbnail = game.keyImages.find((e) => e.type === "Thumbnail")?.url;
 
@@ -45,7 +53,7 @@ export const getEpicGames = async (): Promise<IFreeGame[]> => {
       });
 
       const games: IFreeGame[] = products.map((product) => {
-        const url = "https://store.epicgames.com/p/" + getUrlSlug(product);
+        const url = getUrl(product);
         const state = getGameState(product.title, url);
 
         return {
