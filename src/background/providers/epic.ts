@@ -5,11 +5,11 @@ import axios from "axios";
 import { createError } from "../../utils/errorHandler";
 
 const getUrlSlug = (game: Element): string => {
-  if (game.offerMappings[0]) {
+  if (game.offerMappings && game.offerMappings[0]) {
     return game.offerMappings[0].pageSlug;
   }
 
-  if (game.catalogNs.mappings[0]) {
+  if (game.catalogNs?.mappings && game.catalogNs.mappings[0]) {
     return game.catalogNs.mappings[0].pageSlug;
   }
 

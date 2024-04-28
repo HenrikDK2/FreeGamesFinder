@@ -33,8 +33,8 @@ export interface Element {
   customAttributes: CustomAttribute[];
   categories: Category[];
   tags: Tag[];
-  catalogNs: CatalogNS;
-  offerMappings: Mapping[];
+  catalogNs: CatalogNS | null;
+  offerMappings: Mapping[] | null;
   price: Price;
   promotions: Promotions | null;
 }
